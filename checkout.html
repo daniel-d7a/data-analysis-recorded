@@ -485,6 +485,85 @@
       </div>
     </div>
   </section>
+  <section class="py-20 px-8 bg-surface-container-low/50" id="reviews">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-16">
+        <h2 class="tajawal-black text-4xl mb-6">آراء طلابنا</h2>
+        <div class="w-20 h-1.5 bg-primary mx-auto rounded-full"></div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Review 1 -->
+        <div class="bg-surface-container-lowest p-8 rounded-3xl shadow-lg border border-outline-variant/10 flex flex-col justify-between">
+          <div>
+            <div class="flex text-tertiary mb-6">
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+            </div>
+            <p class="text-lg leading-relaxed italic opacity-80 font-medium">"كل الشكر والتقدير لمستر محمد على شرحه الاحترافي للكورس وأسلوبه المنظم والواضح اللي فرق معانا جداً في الفهم والتطبيق 🙏 👌"</p>
+          </div>
+          <div class="flex items-center gap-4 mt-8 pt-8 border-t border-outline-variant/10">
+            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
+              <span class="material-symbols-outlined text-3xl">person</span>
+            </div>
+            <div>
+              <h4 class="font-bold">Ahmed Fathi</h4>
+              <p class="text-xs opacity-50">طالب في الأكاديمية</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review 2 -->
+        <div class="bg-surface-container-lowest p-8 rounded-3xl shadow-lg border border-outline-variant/10 flex flex-col justify-between">
+          <div>
+            <div class="flex text-tertiary mb-6">
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+            </div>
+            <p class="text-lg leading-relaxed italic opacity-80 font-medium">"شكرا يا دكتور علي الشرح بتشرح بضمير وفهمت منك طريقتك حلوه جدا في الشرح 🙏 ❤️"</p>
+          </div>
+          <div class="flex items-center gap-4 mt-8 pt-8 border-t border-outline-variant/10">
+            <div class="w-12 h-12 bg-secondary/10 rounded-xl flex items-center justify-center text-secondary">
+              <span class="material-symbols-outlined text-3xl">person_4</span>
+            </div>
+            <div>
+              <h4 class="font-bold">Badr Ali</h4>
+              <p class="text-xs opacity-50">طالب في الأكاديمية</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review 3 -->
+        <div class="bg-surface-container-lowest p-8 rounded-3xl shadow-lg border border-outline-variant/10 flex flex-col justify-between">
+          <div>
+            <div class="flex text-tertiary mb-6">
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+            </div>
+            <p class="text-lg leading-relaxed italic opacity-80 font-medium">"ما شاء الله ربنا يبارك فيك ويزيدك علم إتقان واحتراف ف الشرح ❤️ 👍 👌"</p>
+          </div>
+          <div class="flex items-center gap-4 mt-8 pt-8 border-t border-outline-variant/10">
+            <div class="w-12 h-12 bg-tertiary/10 rounded-xl flex items-center justify-center text-tertiary">
+              <span class="material-symbols-outlined text-3xl">person_3</span>
+            </div>
+            <div>
+              <h4 class="font-bold">Eslam Elnaggar</h4>
+              <p class="text-xs opacity-50">Sales manager</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <footer class="w-full pt-20 pb-12 bg-on-surface text-white">
     <div class="container-custom px-6 md:px-8">
@@ -593,23 +672,28 @@
       function initCountdown() {
         let deadline = localStorage.getItem('diploma_deadline');
 
-        if (!deadline) {
+        function setRandomDeadline() {
           const randomHours = Math.floor(Math.random() * (13 - 8 + 1)) + 8;
           const randomMinutes = Math.floor(Math.random() * 60);
           const randomSeconds = Math.floor(Math.random() * 60);
-          deadline = new Date().getTime() + (randomHours * 3600000) + (randomMinutes * 60000) + (randomSeconds * 1000);
-          localStorage.setItem('diploma_deadline', deadline);
+          const newDeadline = new Date().getTime() + (randomHours * 3600000) + (randomMinutes * 60000) + (randomSeconds * 1000);
+          localStorage.setItem('diploma_deadline', newDeadline);
+          return newDeadline;
+        }
+
+        if (!deadline || parseInt(deadline) <= now) {
+          deadline = setRandomDeadline();
         } else {
           deadline = parseInt(deadline);
         }
 
         function update() {
-          const now = new Date().getTime();
-          const diff = deadline - now;
+          const currentTime = new Date().getTime();
+          let diff = deadline - currentTime;
 
           if (diff <= 0) {
-            countdownEl.textContent = '٠٠ : ٠٠ : ٠٠';
-            return;
+            deadline = setRandomDeadline();
+            diff = deadline - currentTime;
           }
 
           const hours = Math.floor(diff / (1000 * 60 * 60));
