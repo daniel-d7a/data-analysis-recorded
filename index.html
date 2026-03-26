@@ -1,17 +1,16 @@
 <!DOCTYPE html>
-
 <html dir="rtl" lang="ar">
 
 <head>
   <meta charset="utf-8" />
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
   <link
-    href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&amp;family=Cairo:wght@400;500;600;700&amp;display=swap"
+    href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&family=Cairo:wght@400;500;600;700&display=swap"
     rel="stylesheet" />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
     rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script src="https://kit.fontawesome.com/4e9a8de8b8.js" crossorigin="anonymous"></script>
   <script id="tailwind-config">
     tailwind.config = {
       darkMode: "class",
@@ -79,6 +78,9 @@
   <style>
     html {
       font-size: 15px;
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+      width: 100%;
     }
 
     body {
@@ -123,106 +125,182 @@
     .no-border {
       border: none !important;
     }
+
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-in-out, margin 0.3s ease-in-out, opacity 0.3s ease-in-out;
+      opacity: 0;
+    }
+
+    .accordion-item-active .accordion-content {
+      max-height: 1000px;
+      opacity: 1;
+      margin-top: 1.5rem;
+    }
+
+    .accordion-item-active .accordion-icon {
+      transform: rotate(180deg);
+    }
+
+    /* Reviews Carousel Styles */
+    #reviews-container {
+      scroll-behavior: smooth;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    #reviews-container::-webkit-scrollbar {
+      display: none;
+    }
+
+    .review-card {
+      min-width: 280px;
+      max-width: 280px;
+    }
+
+    @media (min-width: 375px) {
+      .review-card {
+        min-width: 320px;
+        max-width: 320px;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .review-card {
+        min-width: 400px;
+        max-width: 400px;
+      }
+    }
+
+    .container-custom {
+      width: 100%;
+      max-width: 1280px;
+      margin-left: auto;
+      margin-right: auto;
+    }
   </style>
 </head>
 
 <body class="text-on-surface">
-  <!-- Organic Background Blobs -->
-  <div class="blob w-[500px] h-[500px] bg-primary-container rounded-full top-[-100px] right-[-100px]"></div>
-  <div class="blob w-[600px] h-[600px] bg-secondary-container rounded-full top-[400px] left-[-200px]"></div>
-  <div class="blob w-[400px] h-[400px] bg-tertiary-container rounded-full bottom-[200px] right-[10%]"></div>
-  <!-- 1. Sticky Urgency Banner -->
-  <div
-    class="sticky top-0 z-[60] bg-tertiary-container text-on-tertiary-container py-3 px-6 flex justify-center items-center gap-6 font-bold text-sm md:text-base">
-    <div class="flex items-center gap-2">
-      <span class="material-symbols-outlined text-xl">timer</span>
-      <span>ينتهي العرض الخاص خلال:</span>
-      <span class="bg-on-tertiary-container text-tertiary-fixed px-3 py-1 rounded-lg">٠٨ : ٤٥ : ١٢</span>
+  <!-- Clipped Blob Container -->
+  <div class="fixed inset-0 overflow-hidden pointer-events-none z-[-1]" aria-hidden="true">
+    <div
+      class="blob w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-primary-container rounded-full top-[-50px] md:top-[-100px] right-[-50px] md:right-[-100px]">
     </div>
-    <a class="underline decoration-2 underline-offset-4 hover:opacity-80 transition-opacity" href="#pricing">سجل الآن
-      واضمن مكانك</a>
+    <div
+      class="blob w-[400px] md:w-[600px] h-[400px] md:h-[600px] bg-secondary-container rounded-full top-[300px] md:top-[400px] left-[-100px] md:left-[-200px]">
+    </div>
+    <div
+      class="blob w-[250px] md:w-[400px] h-[250px] md:h-[400px] bg-tertiary-container rounded-full bottom-[100px] md:bottom-[200px] right-[5%] md:right-[10%]">
+    </div>
   </div>
-  <!-- 2. Sticky Header (Shared Component) -->
-  <header
-    class="fixed top-12 w-full z-50 sticky bg-[#f9f9f7]/80 dark:bg-[#1a1c1b]/80 backdrop-blur-xl shadow-[0_20px_40px_-10px_rgba(26,28,27,0.06)] no-border transition-colors duration-300">
-    <nav
-      class="flex flex-row-reverse justify-between items-center w-full px-8 py-4 max-w-full mx-auto font-['Tajawal'] font-bold text-lg leading-tight">
-      <div class="text-3xl font-black text-[#1a1c1b] dark:text-[#f9f9f7] tracking-tighter">
-        مسار تحليل البيانات
+
+  <div class="fixed top-0 inset-x-0 z-[60]">
+    <!-- Top Banner -->
+    <div
+      class="bg-tertiary-container text-on-tertiary-container py-2 md:py-3 px-4 md:px-6 flex flex-wrap justify-center items-center gap-2 md:gap-6 font-bold text-[11px] sm:text-xs md:text-base">
+      <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-lg md:text-xl">timer</span>
+        <span>العرض هيخلص كمان:</span>
+        <span id="countdown-timer" dir="ltr"
+          class="bg-on-tertiary-container text-tertiary-fixed px-2 md:px-3 py-0.5 md:py-1 rounded-lg">-- : -- :
+          --</span>
       </div>
-      <div class="hidden md:flex flex-row-reverse gap-8 items-center">
-        <a class="text-[#ab3500] border-b-4 border-[#ff6b35] pb-1 hover:text-[#ab3500] hover:opacity-100 transition-all"
-          href="#">المنهج</a>
-        <a class="text-[#1a1c1b] dark:text-[#f4f4f2] opacity-70 hover:text-[#ab3500] hover:opacity-100 transition-all"
-          href="#">المدرب</a>
-        <a class="text-[#1a1c1b] dark:text-[#f4f4f2] opacity-70 hover:text-[#ab3500] hover:opacity-100 transition-all"
-          href="#">الأسعار</a>
-        <a class="text-[#1a1c1b] dark:text-[#f4f4f2] opacity-70 hover:text-[#ab3500] hover:opacity-100 transition-all"
-          href="#">الأسئلة الشائعة</a>
-      </div>
-      <div class="flex items-center gap-4">
-        <button class="bg-[#ab3500] text-white px-8 py-2.5 rounded-full scale-95 active:scale-90 transition-transform">
-          سجل الآن
-        </button>
-      </div>
-    </nav>
-  </header>
-  <!-- 3. Hero Section -->
-  <section class="relative pt-24 pb-24 px-8">
+      <a class="underline decoration-2 underline-offset-4 hover:opacity-80 transition-opacity" href="checkout.html">سجل
+        دلوقتي واحجز مكانك</a>
+    </div>
+
+    <!-- Main Header -->
+    <header
+      class="w-full bg-[#f9f9f7]/80 dark:bg-[#1a1c1b]/80 backdrop-blur-xl shadow-[0_10px_30px_-10px_rgba(26,28,27,0.06)] no-border transition-colors duration-300">
+      <nav
+        class="flex flex-row-reverse justify-between items-center w-full px-6 md:px-8 py-3 md:py-4 max-w-7xl mx-auto font-['Tajawal'] font-bold text-lg leading-tight">
+        <div class="text-xl md:text-3xl font-black text-[#1a1c1b] dark:text-[#f9f9f7] tracking-tighter">
+          أكاديمية البيانات
+        </div>
+
+        <!-- Desktop Menu -->
+        <div class="hidden lg:flex flex-row-reverse gap-8 items-center">
+          <a class="text-[#ab3500] border-b-2 border-[#ff6b35] pb-1 hover:text-[#ab3500] hover:opacity-100 transition-all font-extrabold"
+            href="#curriculum">المنهج</a>
+          <a class="text-[#1a1c1b] dark:text-[#f4f4f2] opacity-70 hover:text-[#ab3500] hover:opacity-100 transition-all"
+            href="#instructor">المدرب</a>
+          <a class="text-[#1a1c1b] dark:text-[#f4f4f2] opacity-70 hover:text-[#ab3500] hover:opacity-100 transition-all"
+            href="#pricing">الأسعار</a>
+          <a class="text-[#1a1c1b] dark:text-[#f4f4f2] opacity-70 hover:text-[#ab3500] hover:opacity-100 transition-all"
+            href="#faq">الأسئلة المتكررة</a>
+        </div>
+
+        <div class="flex items-center gap-2 sm:gap-4">
+          <a href="checkout.html"
+            class="bg-[#ab3500] text-white px-5 sm:px-8 py-2 md:py-2.5 rounded-full scale-95 active:scale-90 transition-transform text-sm sm:text-base whitespace-nowrap text-center">
+            سجل دلوقتي
+          </a>
+        </div>
+      </nav>
+    </header>
+  </div>
+
+
+
+  <section class="relative pt-44 md:pt-48 pb-16 md:pb-24 px-4 md:px-8">
     <div class="container-custom text-center flex flex-col items-center">
       <h1
-        class="tajawal-black text-4xl md:text-6xl leading-[1.1] text-on-surface mb-8 tracking-tighter max-w-5xl">
-        احترف <span class="bg-clip-text text-transparent bg-gradient-to-l from-primary to-secondary">تحليل
-          البيانات</span> من الصفر للاحتراف
+        class="tajawal-black text-5xl sm:text-6xl md:text-6xl leading-[1.2] md:leading-[1.1] text-on-surface mb-6 md:mb-8 tracking-tighter max-w-5xl">
+        اتعلم <span class="bg-clip-text text-transparent bg-gradient-to-l from-primary to-secondary">تحليل
+          البيانات</span> من الصفر لحد الاحتراف
       </h1>
-      <p class="text-lg md:text-xl text-on-surface/70 leading-relaxed mb-12 max-w-3xl font-medium">
-        انضم إلى أقوى برنامج تدريبي عملي في الوطن العربي، تعلم الأدوات الأكثر طلباً في سوق العمل وابنِ محفظة مشاريع
-        احترافية تؤهلك للعمل في كبرى الشركات العالمية.
+      <p class="text-base md:text-xl text-on-surface/70 leading-relaxed mb-10 md:mb-12 max-w-3xl font-medium">
+        انضم لأقوى برنامج تدريبي عملي في الوطن العربي، اتعلم الأدوات اللي السوق محتاجها وابني بورتفوليو احترافي يخليك
+        تشتغل في أكبر الشركات.
       </p>
-      <!-- Video Embed Below Title/Subtitle -->
-      <div class="w-full max-w-4xl relative mb-16">
+
+      <div class="w-full max-w-4xl relative mb-12 md:mb-16 px-2">
         <div
-          class="aspect-video bg-surface-container-highest rounded-2xl overflow-hidden shadow-2xl relative group cursor-pointer border-8 border-surface-container-low">
+          class="aspect-video bg-surface-container-highest rounded-xl md:rounded-2xl overflow-hidden shadow-2xl relative group cursor-pointer border-4 md:border-8 border-surface-container-low">
           <img alt="Data analytics workstation"
             class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700"
             src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_NmlCDk2mpLRPIQlqQYOuXuIRebRw9voSi_PLMMot7NHMFMuBlUb9kr-BBIEHl-iGQFOIWP_Iul0vkllLLpSPDWCX86XwnB9jYdy00PzzBNXWZKFYo7KRgkTbsxTxaFmnwYVXoBv6Y0hublqmf-VwaFNbzGKJE7610WirBanezPGMt-m3IW5bw4DovrKYTCs4j5P9OAcu3KkHb1-gIvMcHFY2oWTy88oCPEFlV_moRuirQIJ5qSt4npTwxXntnWUQLjOooJT4ryG8" />
           <div class="absolute inset-0 flex items-center justify-center bg-black/10">
             <div
-              class="w-24 h-24 bg-white/90 rounded-full flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform">
-              <span class="material-symbols-outlined text-primary text-5xl"
+              class="w-16 h-16 md:w-24 md:h-24 bg-white/90 rounded-full flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform">
+              <span class="material-symbols-outlined text-primary text-4xl md:text-5xl"
                 style="font-variation-settings: 'FILL' 1;">play_arrow</span>
             </div>
           </div>
         </div>
       </div>
-      <!-- Pricing & CTA Block -->
-      <div class="flex flex-col items-center gap-6 mb-12">
+
+      <div class="flex flex-col items-center gap-4 md:gap-6 mb-8 md:mb-12">
         <div class="flex flex-col items-center">
-          <span class="text-on-surface/40 line-through text-2xl">١٢٠٠ ر.س</span>
-          <div class="flex items-center gap-3">
-            <span class="text-6xl font-black text-primary">٤٩٩ ر.س</span>
-            <span class="bg-primary text-white text-xs px-2 py-1 rounded-full animate-pulse">وفر ٦٠٪</span>
+          <span class="text-on-surface/40 line-through text-2xl md:text-4xl">٤٠٩٦ ج.م.</span>
+          <div class="flex items-center gap-2 md:gap-3">
+            <span class="text-5xl sm:text-6xl md:text-8xl font-black text-primary">٤٩٩ ج.م.</span>
+            <span
+              class="bg-primary text-white text-sm md:text-lg px-3 py-1 md:px-4 md:py-1.5 rounded-full animate-pulse">وفر
+              ٨٨٪</span>
           </div>
         </div>
-        <button
-          class="pulse-animation bg-primary-container text-on-primary-container px-12 py-4 rounded-full text-xl font-bold shadow-2xl shadow-primary/20 hover:shadow-2xl hover:-translate-y-1 transition-all">
-          ابدأ رحلتك الآن
-        </button>
+        <a href="checkout.html"
+          class="pulse-animation w-[90%] md:w-auto bg-primary-container text-on-primary-container px-8 md:px-20 py-4 md:py-8 rounded-full text-xl md:text-3xl font-black shadow-2xl shadow-primary/20 hover:shadow-2xl hover:-translate-y-1 transition-all text-center">
+          ابدأ رحلتك دلوقتي
+        </a>
         <div class="flex items-center gap-3 mt-4">
-          <div class="flex -space-x-4 space-x-reverse">
-            <img alt="Student" class="w-10 h-10 rounded-full border-2 border-surface"
+          <div class="flex -space-x-2 md:-space-x-4 space-x-reverse">
+            <img alt="Student" class="w-8 h-8 md:w-10 md:h-10 rounded-full border-2 border-surface"
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6ZeLSkevKvVEAdws7rfsFikMa6X6GWCoe5WqP1svCIKukaya0INN3mbfCAdIRaV99adgXccicM8ZBln2jUlUpNn9Qzy9gh7NyxmA3T4z8kkKCamkWFgHpPhPX2XHHJbNhyoQAgppcTJZsxyDvesiHEcgYNViTN-nNOq5GR4iD53AW50JrCQJr7UsTGzYuwQ3QElLpjgrfNFL_tVKlPG3IF3sqdIiwE-tj34a1g09c3Mn_JVBTRHiT4SK35hNMoXp9dyKBuk9fysYf" />
-            <img alt="Student" class="w-10 h-10 rounded-full border-2 border-surface"
+            <img alt="Student" class="w-8 h-8 md:w-10 md:h-10 rounded-full border-2 border-surface"
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuCmk3NYs0lJIPW8FN0h5dwJ4IrV91MoIyRSBzKaZUpO5UrhDjjQUR8NIdRx55KEERN1TkzKNJqO0wUNd6cKGfLuAGIrNzscFiutU-AJOiuZ4yb9pSX6IuVzc1yiMRtj0SzEdhyQcapka42KNW6_shFRJIq3nWY2PxANeF3PsbojebpmCI2umUcpkw18YHApFoAxjZzV-MRHVckQMa9uYE5JsY-CacjaEi1DRhV9hwJIgeDhS3AtvsAnhwdjypqQfG8K7aQ-oRFidUeS" />
-            <img alt="Student" class="w-10 h-10 rounded-full border-2 border-surface"
+            <img alt="Student" class="w-8 h-8 md:w-10 md:h-10 rounded-full border-2 border-surface"
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuAyuwrUXLXviCvU4l42Wlo6411WI-CTJzoWuDdFj3sdPYohTYouEmunMvuOIkwehKY7Y-_cvX56vlscSA6w8DFZFSPQNhAageQC-19LzsvYOdzR5OxHTR9wsR9gp3PEs9BZk5jSv8ciapd-0thl3XSREMTSsEWH41jgi6Ko1XBHx5Z2xenb8ZtjEtn_DxNBgX8o8NNXq5HLJlbhMVG--0Roo5U5QdwGJOM2ubTjL6Zpnon9bCiWUGTgxJUlG44_2Jb9xO43jXrepKg8" />
           </div>
-          <span class="text-on-surface/60 font-medium">انضم إلى +٥٠٠٠ طالب متميز</span>
+          <span class="text-sm md:text-base text-on-surface/60 font-medium">انضم لـ ٥٠٠٠+ طالب</span>
         </div>
       </div>
     </div>
   </section>
-  <!-- 4. Social Proof Bar -->
+
   <section class="bg-surface-container-low py-16 border-y border-outline-variant/10">
     <div class="max-w-7xl mx-auto px-8 grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
       <div class="space-y-2">
@@ -231,86 +309,79 @@
       </div>
       <div class="space-y-2">
         <h3 class="tajawal-black text-4xl text-secondary tracking-tighter">٤.٩/٥</h3>
-        <p class="text-lg opacity-70 font-bold">تقييم الطلاب</p>
+        <p class="text-lg opacity-70 font-bold">تقييمات الطلبة</p>
       </div>
       <div class="space-y-2">
         <h3 class="tajawal-black text-4xl text-tertiary tracking-tighter">٨٠+</h3>
-        <p class="text-lg opacity-70 font-bold">ساعة تدريبية</p>
+        <p class="text-lg opacity-70 font-bold">ساعة تدريب</p>
       </div>
     </div>
   </section>
-  <!-- 5. Why Choose This Course -->
+
   <section class="py-20 px-8 max-w-7xl mx-auto">
     <div class="text-center mb-20">
-      <h2 class="tajawal-black text-4xl mb-6">لماذا هذا المسار تحديداً؟</h2>
+      <h2 class="tajawal-black text-4xl mb-6">ليه تختار الكورس ده؟</h2>
       <div class="w-24 h-2 bg-primary mx-auto rounded-full"></div>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-      <!-- Card 1 -->
       <div
         class="bg-surface-container-lowest p-10 rounded-xl shadow-[0_20px_40px_-10px_rgba(26,28,27,0.06)] hover:translate-y-[-10px] transition-all duration-300">
         <div class="w-16 h-16 bg-primary-container/10 text-primary rounded-xl flex items-center justify-center mb-8">
           <span class="material-symbols-outlined text-4xl" style="font-variation-settings: 'FILL' 1;">dataset</span>
         </div>
-        <h4 class="text-2xl font-bold mb-4">مشاريع من الواقع</h4>
-        <p class="text-on-surface/70 leading-relaxed">لن تكتفي بالنظرية، بل ستعمل على مشاريع حقيقية باستخدام بيانات
-          فعلية من شركات كبرى لبناء معرض أعمالك.</p>
+        <h4 class="text-2xl font-bold mb-4">مشاريع من قلب الواقع</h4>
+        <p class="text-on-surface/70 leading-relaxed">مش هتتعلم نظري بس، أنت هتشتغل على مشاريع حقيقية ببيانات
+          فعلية من شركات كبيرة عشان تبني البورتفوليو بتاعك.</p>
       </div>
-      <!-- Card 2 -->
       <div
         class="bg-surface-container-lowest p-10 rounded-xl shadow-[0_20px_40px_-10px_rgba(26,28,27,0.06)] hover:translate-y-[-10px] transition-all duration-300">
         <div
           class="w-16 h-16 bg-secondary-container/10 text-secondary rounded-xl flex items-center justify-center mb-8">
           <span class="material-symbols-outlined text-4xl" style="font-variation-settings: 'FILL' 1;">group</span>
         </div>
-        <h4 class="text-2xl font-bold mb-4">جلسات توجيه مباشرة</h4>
-        <p class="text-on-surface/70 leading-relaxed">تواصل مع المدرب في لقاءات أسبوعية مباشرة للإجابة على تساؤلاتك
-          ومراجعة تقدمك في المسار.</p>
+        <h4 class="text-2xl font-bold mb-4">متابعة ولقاءات مباشرة</h4>
+        <p class="text-on-surface/70 leading-relaxed">هتتواصل مع المدرب في لقاءات أسبوعية لايف عشان يجاوب على كل أسئلتك
+          ويشوف وصلت لفين.</p>
       </div>
-      <!-- Card 3 -->
       <div
         class="bg-surface-container-lowest p-10 rounded-xl shadow-[0_20px_40px_-10px_rgba(26,28,27,0.06)] hover:translate-y-[-10px] transition-all duration-300">
         <div class="w-16 h-16 bg-tertiary-container/10 text-tertiary rounded-xl flex items-center justify-center mb-8">
           <span class="material-symbols-outlined text-4xl"
             style="font-variation-settings: 'FILL' 1;">all_inclusive</span>
         </div>
-        <h4 class="text-2xl font-bold mb-4">وصول مدى الحياة</h4>
-        <p class="text-on-surface/70 leading-relaxed">احصل على المنهج والتحديثات المستقبلية مجاناً مدى الحياة، وارجع
-          للمحتوى في أي وقت تحتاجه.</p>
+        <h4 class="text-2xl font-bold mb-4">وصول للمحتوى مدى الحياة</h4>
+        <p class="text-on-surface/70 leading-relaxed">هتاخد المنهج وأي تحديثات هتحصل في المستقبل مجاناً وتفضل معاك طول
+          العمر، وارجع لها في أي وقت.</p>
       </div>
     </div>
   </section>
-  <!-- 6. Instructor Section (Updated) -->
-  <section class="bg-surface-container-high py-20 px-8 overflow-hidden">
+
+  <section class="bg-surface-container-high py-20 px-4 md:px-8 overflow-hidden" id="instructor">
     <div class="max-w-7xl mx-auto flex flex-col items-center gap-16 text-center">
-      <!-- Instructor Image Container -->
-      <div class="w-[60%] md:w-[40%] relative">
+      <div class="w-full md:w-[40%] relative">
         <div
-          class="relative z-10 rounded-3xl overflow-hidden shadow-2xl transition-transform duration-500 hover:scale-[1.02]">
+          class="relative z-10 rounded-lg  md:rounded-3xl overflow-hidden shadow-2xl transition-transform duration-500 hover:scale-[1.02]">
           <img alt="Dr. Ahmed Mahmoud - Data Science Expert" class="w-full aspect-[16/9] object-cover"
             src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAUQFBGQOjLiSDWxeggJ0WJBj8KpEk5qlqIxWeLxRwTe15unz866IwCHPR1P7_G3yojHvcfWvWuQmPOTUnU0hby4_BEdY7G9JT0PAz-KRgOmmfaf-nmOs-LbzGyZEx4RdmgNxTnk6GPWmDSZ2FFO8EPilbMwE96qFW1o38ikg-aYaDQlVoGx_-hLexTyQ_VRWxCWYCcUN8VckaAiCdFOatzyxxyAUfkC1q116G4nfZTW52bgw1ihcvazJIXnPKp-0sehmVQ7Gwg9p6" />
         </div>
-        <!-- Decorative blob behind image -->
         <div class="absolute -top-10 -right-10 w-40 h-40 bg-primary/20 rounded-full blur-3xl z-0"></div>
       </div>
-      <!-- Instructor Text Stack -->
-      <div class="max-w-4xl space-y-10">
+      <div class="max-w-4xl space-y-10 px-6 md:px-0">
         <div class="space-y-4">
-          <h3 class="text-secondary font-bold text-xl uppercase tracking-widest">تعرف على مدربك</h3>
+          <h3 class="text-secondary font-bold text-xl uppercase tracking-widest">اتعرف على مدربك</h3>
           <h2 class="tajawal-black text-5xl leading-tight">د. أحمد محمود</h2>
         </div>
         <p class="text-xl text-on-surface/80 leading-relaxed font-medium">
-          خبير علوم البيانات في Amazon و Google سابقاً. أكثر من ١٠ سنوات من الخبرة في بناء النماذج التحليلية وقيادة فرق
-          البيانات في كبرى الشركات التقنية. قام د. أحمد بتدريب الآلاف من المهنيين على الانتقال لمجال البيانات بنجاح، وهو
-          الآن يضع خلاصته المهنية في هذا المسار.
+          خبير في علوم البيانات في أمازون وجوجل قبل كدة. أكتر من ١٠ سنين خبرة في بناء النماذج التحليلية وإدارة فرق
+          البيانات في أكبر شركات التكنولوجيا. د. أحمد درب آلاف المهنيين عشان يدخلوا مجال البيانات بنجاح، وكمان بيحط كل
+          خبرته السنين دي في المسار ده.
         </p>
-        <!-- Experience Badges -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           <div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/10">
             <span class="material-symbols-outlined text-primary text-3xl mb-2 block"
               style="font-variation-settings: 'FILL' 1;">work</span>
             <p class="tajawal-black text-2xl text-primary">١٠+</p>
-            <p class="text-sm font-bold opacity-60">سنوات خبرة</p>
+            <p class="text-sm font-bold opacity-60">سنين خبرة</p>
           </div>
           <div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/10">
             <span class="material-symbols-outlined text-secondary text-3xl mb-2 block"
@@ -331,9 +402,8 @@
             <p class="text-sm font-bold opacity-60">ذكاء اصطناعي</p>
           </div>
         </div>
-        <!-- Previous Companies Logos (Represented by names in styled row) -->
         <div class="pt-8 border-t border-outline-variant/10">
-          <p class="text-sm font-bold opacity-40 mb-6 uppercase tracking-widest">خبرة سابقة في شركات عالمية</p>
+          <p class="text-sm font-bold opacity-40 mb-6 uppercase tracking-widest">خبرة سابقة في أكبر الشركات العالمية</p>
           <div class="flex flex-wrap justify-center items-center gap-12 text-2xl font-black text-on-surface/20">
             <span class="hover:text-primary transition-colors cursor-default">Google</span>
             <span class="hover:text-secondary transition-colors cursor-default">Amazon</span>
@@ -344,23 +414,24 @@
       </div>
     </div>
   </section>
-  <!-- 7. Mid-Page CTA -->
+
   <section class="bg-on-surface py-24 px-8 text-center relative overflow-hidden">
     <div class="blob w-[300px] h-[300px] bg-secondary opacity-20 top-0 left-0"></div>
     <div class="max-w-4xl mx-auto space-y-12 relative z-10">
-      <h2 class="tajawal-black text-5xl text-white leading-tight">ابدأ رحلتك الاحترافية اليوم</h2>
-      <p class="text-white/60 text-xl font-medium">لا تضيع المزيد من الوقت، انضم لمجتمع محللي البيانات الآن</p>
-      <button
-        class="bg-primary-container text-on-primary-container px-12 py-4 rounded-full text-xl font-bold hover:scale-105 transition-transform shadow-2xl shadow-primary/40">
-        احجز مقعدك الآن
-      </button>
+      <h2 class="tajawal-black text-5xl text-white leading-tight">ابدأ رحلتك الاحترافية النهاردة</h2>
+      <p class="text-white/60 text-xl font-medium">متضيعش وقت أكتر من كدة، وانضم لاكبر مجتمع تحليل بيانات في مصر</p>
+      <a href="checkout.html"
+        class="bg-primary-container text-on-primary-container px-12 py-4 rounded-full text-xl font-bold hover:scale-105 transition-transform shadow-2xl shadow-primary/40 inline-block">
+        احجز مكانك دلوقتي
+      </a>
     </div>
   </section>
-  <!-- 8. Course Samples -->
+
   <section class="py-20 px-8 max-w-7xl mx-auto">
     <div class="text-center mb-20">
-      <h2 class="tajawal-black text-4xl mb-6">شاهد عينة من المحتوى</h2>
-      <p class="text-xl opacity-60">جودة الشرح والعمق المعرفي الذي نتميز به</p>
+      <h2 class="tajawal-black text-4xl mb-6">عينة من المحتوى</h2>
+      <p class="text-xl opacity-60">اتفرج على نماذج حقيقية من المحتوى وشوف بنفسك جودة الشرح والخبرة العملية اللي هتاخدها
+        في كل جلسة.</p>
     </div>
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
       <div class="group">
@@ -373,344 +444,987 @@
             <span class="material-symbols-outlined text-white text-6xl">play_circle</span>
           </div>
         </div>
-        <h3 class="text-2xl font-bold">عينة ١: تحليل البيانات الاستكشافي (EDA)</h3>
+        <h3 class="text-2xl font-bold mb-3">عينة ١: تحليل البيانات والتعامل مع Excel</h3>
+        <p class="text-lg opacity-70 leading-relaxed">
+          شرح عملي عميق لخطوات الـ Data Cleaning وازاي تتعامل مع الداتا الضخمة والمعقدة في Excel و Power Query بأسهل
+          وأسرع الطرق.
+        </p>
       </div>
+
       <div class="group">
         <div class="aspect-video bg-surface-container-highest rounded-xl overflow-hidden shadow-lg relative mb-6">
           <img alt="Sample video cover"
             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUR8EXltJPp2Pi3VrNUp6AkbKhoCtmTGhBR6ZXqQqrhumZQpLNLIvd5x3KjbPPhPa_PQA3CtGBaR9eOQFfOKXK1BgSfdcjMUboR-6IEcf_I_gKXz5SeFz3Jok--ZMvRHtVEQF4mvZ2npP69AXuOMzC3lSN2zVcp4nbFn-ZIWXCJaBw0lPn38bLRwf83wZqzlEEQX--tWOhRkW-DN28TXC1Ap6P_TkCaz2YsfQrLvMBGAxDqNtD0Eq6yUVcD8eQ3tf0nVUzSb_P0D8O" />
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBb3gvgqt69DQkvt9R5N_zCiz4vxGpuuKbVkY0LzmhPGUxr1hgwg2vTRmnF9GqgcgmNaCoJk5BvqoAO9SnIfYK-4Wy8_l9NZCKCa0U3pEzW6UW-tXWsVcH9Xc-59ZY_wXlOdBQNU2EmwJBagQCUOjScAtwqkBERlhLWtj4YBMV9-1T0BZHcPuLBhBPLwVx6sAxbKXwR0sFkIDzIjZdeX0WFqeH_jwmQ_kQlnx6s4nHyACJLRov2aeaAHqDdwND_3_FEkl5wA6NzTE-h" />
           <div
             class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
             <span class="material-symbols-outlined text-white text-6xl">play_circle</span>
           </div>
         </div>
-        <h3 class="text-2xl font-bold">عينة ٢: تصميم لوحات البيانات الاحترافية</h3>
+        <h3 class="text-2xl font-bold mb-3">عينة ٢: بناء Dashboards في Power BI</h3>
+        <p class="text-lg opacity-70 leading-relaxed">
+          خطوات بناء لوحة بيانات (Dashboard) تفاعلية بالكامل بـ Power BI، بتربط بين أكتر من مصدر داتا وبتقدم Insights
+          حقيقية لصناع القرار.
+        </p>
       </div>
     </div>
   </section>
-  <!-- 9. Course Content (Accordion) -->
-  <section class="bg-surface-container-low py-20 px-8">
-    <div class="max-w-6xl mx-auto">
-      <div class="text-center mb-20">
-        <h2 class="tajawal-black text-5xl mb-6">منهج المسار الشامل</h2>
-        <p class="text-2xl opacity-60">رحلتك من الصفر حتى الاحتراف في ٤ محطات رئيسية</p>
+
+  <section class="py-24 px-8 bg-surface overflow-hidden" id="reviews">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+        <div class="space-y-4 text-right">
+          <h2 class="tajawal-black text-5xl leading-tight">آراء طلابنا</h2>
+          <p class="text-xl opacity-60 max-w-2xl">انضم لألاف المتفوقين اللي بدأوا رحلتهم معانا وحققوا طفرة في حياتهم
+            المهنية</p>
+        </div>
+        <div class="flex gap-4">
+          <button id="prev-review"
+            class="w-14 h-14 rounded-full border-2 border-outline-variant flex items-center justify-center hover:bg-primary hover:text-white hover:border-primary transition-all group">
+            <span class="material-symbols-outlined text-3xl">chevron_right</span>
+          </button>
+          <button id="next-review"
+            class="w-14 h-14 rounded-full border-2 border-outline-variant flex items-center justify-center hover:bg-primary hover:text-white hover:border-primary transition-all group">
+            <span class="material-symbols-outlined text-3xl">chevron_left</span>
+          </button>
+        </div>
       </div>
-      <div class="space-y-8">
-        <!-- Chapter 1 (Expanded Example) -->
-        <div class="curriculum-card bg-surface-container-lowest rounded-[2.5rem] p-10 border-r-[12px] border-primary shadow-xl cursor-pointer transition-all">
-          <div class="flex justify-between items-center">
-            <div class="flex items-center gap-10">
-              <span class="w-16 h-16 bg-primary/10 text-primary flex items-center justify-center rounded-2xl font-black text-3xl">٠١</span>
-              <div class="space-y-2">
-                <h3 class="text-3xl font-black">أساسيات الإحصاء للبيانات</h3>
-                <p class="text-lg opacity-60">فهم لغة الأرقام والقرارات المبنية على البيانات</p>
-              </div>
+
+      <div id="reviews-container" class="flex gap-8 overflow-x-auto pb-8 snap-x snap-mandatory">
+        <!-- Review Card 1 -->
+        <div
+          class="review-card snap-center bg-surface-container-lowest p-8 md:p-10 rounded-[2.5rem] shadow-xl border border-outline-variant/10 flex flex-col justify-between">
+          <div class="space-y-6">
+            <div class="flex text-tertiary">
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
             </div>
-            <span class="accordion-icon material-symbols-outlined text-primary text-5xl">expand_less</span>
+            <p class="text-xl leading-relaxed italic opacity-80 font-medium">"الكورس ده غير حياتي المهنية بجد. دكتور
+              أحمد بيبسط المعلومة جداً، وأهم حاجة المتابعة الأسبوعية اللي بتخليك دايمًا على الطريق الصح."</p>
           </div>
-          <div class="accordion-content mt-12 pt-12 border-t border-outline-variant/10">
-            <ul class="grid grid-cols-1 md:grid-cols-3 gap-10">
-              <li class="flex items-center gap-6">
-                <span class="material-symbols-outlined text-primary text-3xl" style="font-variation-settings: 'FILL' 1;">check_circle</span>
-                <span class="text-xl font-bold">التحليل الوصفي والاستدلالي</span>
-              </li>
-              <li class="flex items-center gap-6">
-                <span class="material-symbols-outlined text-primary text-3xl" style="font-variation-settings: 'FILL' 1;">check_circle</span>
-                <span class="text-xl font-bold">اختبار الفرضيات الإحصائية</span>
-              </li>
-              <li class="flex items-center gap-6">
-                <span class="material-symbols-outlined text-primary text-3xl" style="font-variation-settings: 'FILL' 1;">check_circle</span>
-                <span class="text-text-2xl font-bold">تحليل الارتباط والانحدار</span>
-              </li>
-            </ul>
+          <div class="flex items-center gap-4 mt-8 pt-8 border-t border-outline-variant/10">
+            <div class="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center text-primary">
+              <span class="material-symbols-outlined text-4xl" style="font-variation-settings: 'FILL' 1;">person</span>
+            </div>
+            <div>
+              <h4 class="font-bold text-lg">محمد علي</h4>
+              <p class="text-sm opacity-50">خريج المسار الشامل</p>
+            </div>
           </div>
         </div>
 
-        <!-- Chapter 2 -->
-        <div class="curriculum-card bg-surface-container-lowest rounded-[2.5rem] p-10 border-r-[12px] border-secondary shadow-xl cursor-pointer hover:translate-x-[-8px] transition-all">
-          <div class="flex justify-between items-center">
-            <div class="flex items-center gap-10">
-              <span class="w-16 h-16 bg-secondary/10 text-secondary flex items-center justify-center rounded-2xl font-black text-3xl">٠٢</span>
-              <div class="space-y-2">
-                <h3 class="text-3xl font-black">احتراف Python للبيانات</h3>
-                <p class="text-lg opacity-60">الأداة الأقوى للمحلل العصري من الصفر</p>
-              </div>
+        <!-- Review Card 2 -->
+        <div
+          class="review-card snap-center bg-surface-container-lowest p-8 md:p-10 rounded-[2.5rem] shadow-xl border border-outline-variant/10 flex flex-col justify-between">
+          <div class="space-y-6">
+            <div class="flex text-tertiary">
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
             </div>
-            <span class="accordion-icon material-symbols-outlined text-on-surface/40 text-5xl">expand_more</span>
+            <p class="text-xl leading-relaxed italic opacity-80 font-medium">"المشاريع العملية هي اللي بتميز المسار ده.
+              بقيت واثقة جداً وأنا بستخدم Power BI في شغلي، والداشبوردز اللي عملتها بهرت مديري."</p>
           </div>
-          <div class="accordion-content hidden mt-12 pt-12 border-t border-outline-variant/10">
-            <ul class="grid grid-cols-1 md:grid-cols-3 gap-10">
-              <li class="flex items-center gap-6">
-                <span class="material-symbols-outlined text-secondary text-3xl" style="font-variation-settings: 'FILL' 1;">check_circle</span>
-                <span class="text-xl font-bold">مكتبات Pandas & NumPy</span>
-              </li>
-              <li class="flex items-center gap-6">
-                <span class="material-symbols-outlined text-secondary text-3xl" style="font-variation-settings: 'FILL' 1;">check_circle</span>
-                <span class="text-xl font-bold">تنظيف البيانات الضخمة</span>
-              </li>
-              <li class="flex items-center gap-6">
-                <span class="material-symbols-outlined text-secondary text-3xl" style="font-variation-settings: 'FILL' 1;">check_circle</span>
-                <span class="text-xl font-bold">بناء النماذج التنبؤية</span>
-              </li>
-            </ul>
+          <div class="flex items-center gap-4 mt-8 pt-8 border-t border-outline-variant/10">
+            <div class="w-14 h-14 bg-secondary/10 rounded-2xl flex items-center justify-center text-secondary">
+              <span class="material-symbols-outlined text-4xl"
+                style="font-variation-settings: 'FILL' 1;">person_4</span>
+            </div>
+            <div>
+              <h4 class="font-bold text-lg">سارة محمود</h4>
+              <p class="text-sm opacity-50">محللة بيانات ناشئة</p>
+            </div>
           </div>
         </div>
 
-        <!-- Chapter 3 -->
-        <div class="curriculum-card bg-surface-container-lowest rounded-[2.5rem] p-10 border-r-[12px] border-tertiary shadow-xl cursor-pointer hover:translate-x-[-8px] transition-all">
-          <div class="flex justify-between items-center">
-            <div class="flex items-center gap-10">
-              <span class="w-16 h-16 bg-tertiary/10 text-tertiary flex items-center justify-center rounded-2xl font-black text-3xl">٠٣</span>
-              <div class="space-y-2">
-                <h3 class="text-3xl font-black">قواعد البيانات SQL المتقدمة</h3>
-                <p class="text-lg opacity-60">إتقان استخراج البيانات من المستودعات الكبرى</p>
-              </div>
+        <!-- Review Card 3 -->
+        <div
+          class="review-card snap-center bg-surface-container-lowest p-8 md:p-10 rounded-[2.5rem] shadow-xl border border-outline-variant/10 flex flex-col justify-between">
+          <div class="space-y-6">
+            <div class="flex text-tertiary">
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
             </div>
-            <span class="accordion-icon material-symbols-outlined text-on-surface/40 text-5xl">expand_more</span>
+            <p class="text-xl leading-relaxed italic opacity-80 font-medium">"بدأت من الصفر وكنت خايف من البرمجة، بس
+              الشرح المبسط والتدرج في المستوى خلاني أتعلم بايثون وإكسل بسهولة غير متوقعة."</p>
           </div>
-          <div class="accordion-content hidden mt-12 pt-12 border-t border-outline-variant/10">
-            <ul class="grid grid-cols-1 md:grid-cols-3 gap-10">
-              <li class="flex items-center gap-6">
-                <span class="material-symbols-outlined text-tertiary text-3xl" style="font-variation-settings: 'FILL' 1;">check_circle</span>
-                <span class="text-xl font-bold">كتابة الاستعلامات المعقدة</span>
-              </li>
-              <li class="flex items-center gap-6">
-                <span class="material-symbols-outlined text-tertiary text-3xl" style="font-variation-settings: 'FILL' 1;">check_circle</span>
-                <span class="text-xl font-bold">التعامل مع بيئات SQL المختلفة</span>
-              </li>
-              <li class="flex items-center gap-6">
-                <span class="material-symbols-outlined text-tertiary text-3xl" style="font-variation-settings: 'FILL' 1;">check_circle</span>
-                <span class="text-xl font-bold">تحسين أداء قواعد البيانات</span>
-              </li>
-            </ul>
+          <div class="flex items-center gap-4 mt-8 pt-8 border-t border-outline-variant/10">
+            <div class="w-14 h-14 bg-tertiary/10 rounded-2xl flex items-center justify-center text-tertiary">
+              <span class="material-symbols-outlined text-4xl"
+                style="font-variation-settings: 'FILL' 1;">person_3</span>
+            </div>
+            <div>
+              <h4 class="font-bold text-lg">أحمد إبراهيم</h4>
+              <p class="text-sm opacity-50">مشارك في الدفعة الخامسة</p>
+            </div>
           </div>
         </div>
 
-        <!-- Chapter 4 -->
-        <div class="curriculum-card bg-surface-container-lowest rounded-[2.5rem] p-10 border-r-[12px] border-primary-container shadow-xl cursor-pointer hover:translate-x-[-8px] transition-all">
-          <div class="flex justify-between items-center">
-            <div class="flex items-center gap-10">
-              <span class="w-16 h-16 bg-primary-container/10 text-primary-container flex items-center justify-center rounded-2xl font-black text-3xl">٠٤</span>
-              <div class="space-y-2">
-                <h3 class="text-3xl font-black">تصور البيانات Tableau & PowerBI</h3>
-                <p class="text-lg opacity-60">رواية قصص البيانات من خلال لوحات تفاعلية</p>
-              </div>
+        <!-- Review Card 4 -->
+        <div
+          class="review-card snap-center bg-surface-container-lowest p-8 md:p-10 rounded-[2.5rem] shadow-xl border border-outline-variant/10 flex flex-col justify-between">
+          <div class="space-y-6">
+            <div class="flex text-tertiary">
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
             </div>
-            <span class="accordion-icon material-symbols-outlined text-on-surface/40 text-5xl">expand_more</span>
+            <p class="text-xl leading-relaxed italic opacity-80 font-medium">"أفضل استثمار عملته لنفسي السنة دي. الشرح
+              عميق ومنظم جداً، وكمية المعلومات اللي خرجت بيها خلتني أضمن أول وظيفة ليا في المجال."</p>
           </div>
-          <div class="accordion-content hidden mt-12 pt-12 border-t border-outline-variant/10">
-            <ul class="grid grid-cols-1 md:grid-cols-3 gap-10">
-              <li class="flex items-center gap-6">
-                <span class="material-symbols-outlined text-primary-container text-3xl" style="font-variation-settings: 'FILL' 1;">check_circle</span>
-                <span class="text-xl font-bold">تصميم Dashboards احترافية</span>
-              </li>
-              <li class="flex items-center gap-6">
-                <span class="material-symbols-outlined text-primary-container text-3xl" style="font-variation-settings: 'FILL' 1;">check_circle</span>
-                <span class="text-xl font-bold">تحليل البيانات الزمنية والمكانية</span>
-              </li>
-              <li class="flex items-center gap-6">
-                <span class="material-symbols-outlined text-primary-container text-3xl" style="font-variation-settings: 'FILL' 1;">check_circle</span>
-                <span class="text-2xl font-bold">عرض النتائج لأصحاب القرار</span>
-              </li>
-            </ul>
+          <div class="flex items-center gap-4 mt-8 pt-8 border-t border-outline-variant/10">
+            <div
+              class="w-14 h-14 bg-primary-container/10 rounded-2xl flex items-center justify-center text-primary-container">
+              <span class="material-symbols-outlined text-4xl"
+                style="font-variation-settings: 'FILL' 1;">person_2</span>
+            </div>
+            <div>
+              <h4 class="font-bold text-lg">نوران حسن</h4>
+              <p class="text-sm opacity-50">محللة بيانات جونيور</p>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
-  <!-- 10. Bonus Sections -->
-  <section class="py-20 space-y-20">
-    <div class="max-w-7xl mx-auto px-8 flex flex-col md:flex-row items-center gap-20">
-      <div class="w-full md:w-1/2 space-y-6">
-        <span class="bg-primary-container text-on-primary-container px-4 py-1 rounded-full text-sm font-bold">هدية
-          مجانية ١</span>
-        <h3 class="tajawal-black text-4xl">دليل التحضير للمقابلات التقنية</h3>
-        <p class="text-lg opacity-70 leading-relaxed">أهم الأسئلة التي يطرحها مديرو التوظيف في Google و Meta وكيف تجيب
-          عليها باحترافية لتضمن قبولك.</p>
-      </div>
-      <div class="w-full md:w-1/2 rounded-xl overflow-hidden shadow-2xl">
-        <img alt="Interview scene" class="w-full"
-          src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKmTjmImLgLEfSj9dLK_e6LKA2f-9-ZXI9Ww7wMSsT9Tk2SdtJVplywTtpobqU1LXukbcfZWiLFMRGefb_q-8hJoe2jIZroroTcTLvNYQJmU0tfFPpZgoss6FGSUz6uB__1NiUT8uUQnnQHj8rJ7Hbq1qUyzErc6tNh_B5MFmAKaGZDcMRpGdEQekZHleG2L5cA6R0Tn3mQHY6sa-IveO0pbGPE_NkJphDqqApjFm9htqO_Usm2R6RMwByOnVwuXv4dMKK6pwyUsX6" />
-      </div>
-    </div>
-    <div class="max-w-7xl mx-auto px-8 flex flex-col md:flex-row-reverse items-center gap-20">
-      <div class="w-full md:w-1/2 space-y-6">
-        <span class="bg-secondary-container text-on-secondary-container px-4 py-1 rounded-full text-sm font-bold">هدية
-          مجانية ٢</span>
-        <h3 class="tajawal-black text-4xl">بناء السيرة الذاتية (Portfolio)</h3>
-        <p class="text-lg opacity-70 leading-relaxed">خطوة بخطوة لبناء معرض أعمال يبرز مهاراتك ويجذب انتباه أصحاب العمل
-          بشكل تلقائي.</p>
-      </div>
-      <div class="w-full md:w-1/2 rounded-xl overflow-hidden shadow-2xl">
-        <img alt="Portfolio layout" class="w-full"
-          src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8LG2f77dqj_oQlIA7mFrvDdmxmFlUUdoiTJSa1Wm1wypzf7l1rmqDMPlVVHJp95nMwV8OsGEOQp7alnXjbPnzAcj0gmcUzC7ey5ghKybKbuRt1hiwtJnp6juUJmVgDKrM4JSxJWCLKjrHHJ5jj1vo2KMdtxnAXBFdoFNiS0dLhY3djivRinzyyf74wpXy9-iPtlvw7e8yfLICsnWWS3tDFo0wHha3koNbhiT7z7rzZXEZJGHef6vP4lRaDgdDLXe48JhLq_rqWo9M" />
-      </div>
-    </div>
-  </section>
-  <!-- 11. Pricing Checklist -->
-  <section class="py-20 px-8" id="pricing">
-    <div
-      class="container-custom mx-auto max-w-4xl bg-surface-container-lowest rounded-[2.5rem] p-10 shadow-2xl border-4 border-primary/5">
+
+  <section class="bg-surface-container-low py-20 px-8" id="curriculum">
+    <div class="max-w-5xl mx-auto">
       <div class="text-center mb-16">
-        <h2 class="tajawal-black text-5xl mb-4">استثمر في مستقبلك</h2>
-        <p class="text-2xl opacity-60">كل ما ستحصل عليه فور اشتراكك</p>
+        <h2 class="tajawal-black text-5xl mb-6">خريطة الكورس</h2>
+        <p class="text-xl opacity-60">١٣ جلسة تدريبية مكثفة من الصفر للاحتراف</p>
       </div>
-      <ul class="space-y-8 mb-20">
-        <li class="flex items-center justify-between border-b border-outline-variant/10 pb-6">
-          <div class="flex items-center gap-6">
-            <span class="material-symbols-outlined text-primary text-3xl"
-              style="font-variation-settings: 'FILL' 1;">check_circle</span>
-            <span class="text-2xl font-bold">المسار الكامل (+٨٠ ساعة تدريبية)</span>
+      <div class="space-y-4">
+
+        <div
+          class="curriculum-card accordion-item-active bg-surface-container-lowest rounded-3xl p-6 border-r-8 border-primary shadow-lg cursor-pointer transition-all">
+          <div class="flex flex-wrap items-center justify-between md:flex-nowrap md:gap-6">
+            <span
+              class="w-12 h-12 bg-primary/10 text-primary flex items-center justify-center rounded-full font-black text-2xl shrink-0">١</span>
+            <div class="order-3 w-full mt-4 md:order-2 md:w-auto md:flex-1 md:mt-0 space-y-1">
+              <h3 class="text-xl md:text-2xl font-black">مقدمة وتحليل البيانات الأساسي</h3>
+              <p class="text-sm md:text-base opacity-60">فهم أساسيات البيانات وذكاء الأعمال في إكسل (جلسة ١-٢)</p>
+            </div>
+            <span class="accordion-icon material-symbols-outlined text-primary text-4xl shrink-0">expand_less</span>
           </div>
+          <div class="accordion-content">
+            <ul class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <li class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-primary text-xl"
+                  style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                <span class="text-lg font-bold">مفاهيم تحليل البيانات وذكاء الأعمال (BI)</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-primary text-xl"
+                  style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                <span class="text-lg font-bold">واجهة إكسل وأنواع البيانات</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-primary text-xl"
+                  style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                <span class="text-lg font-bold">الدوال الأساسية، النصية، والمنطقية</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-primary text-xl"
+                  style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                <span class="text-lg font-bold">التنسيق الشرطي (Conditional Formatting)</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div
+          class="curriculum-card bg-surface-container-lowest rounded-3xl p-6 border-r-8 border-secondary shadow-lg cursor-pointer hover:translate-x-[-4px] transition-all">
+          <div class="flex flex-wrap items-center justify-between md:flex-nowrap md:gap-6">
+            <span
+              class="w-12 h-12 bg-secondary/10 text-secondary flex items-center justify-center rounded-full font-black text-2xl shrink-0">٢</span>
+            <div class="order-3 w-full mt-4 md:order-2 md:w-auto md:flex-1 md:mt-0 space-y-1">
+              <h3 class="text-xl md:text-2xl font-black">الجداول المحورية والتقارير المتقدمة</h3>
+              <p class="text-sm md:text-base opacity-60">تحليل البيانات الضخمة وعرضها بوضوح (جلسة ٣-٤)</p>
+            </div>
+            <span
+              class="accordion-icon material-symbols-outlined text-on-surface/40 text-4xl shrink-0">expand_more</span>
+          </div>
+          <div class="accordion-content">
+            <ul class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <li class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-secondary text-xl"
+                  style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                <span class="text-lg font-bold">احتراف Pivot Tables والحسابات المتقدمة</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-secondary text-xl"
+                  style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                <span class="text-lg font-bold">استخدام Slicers و Timelines لفلترة التقارير</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-secondary text-xl"
+                  style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                <span class="text-lg font-bold">تصميم الرسوم البيانية وبناء الداشبورد</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-secondary text-xl"
+                  style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                <span class="text-lg font-bold">تطبيقات وأسئلة عملية شاملة</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div
+          class="curriculum-card bg-surface-container-lowest rounded-3xl p-6 border-r-8 border-tertiary shadow-lg cursor-pointer hover:translate-x-[-4px] transition-all">
+          <div class="flex flex-wrap items-center justify-between md:flex-nowrap md:gap-6">
+            <span
+              class="w-12 h-12 bg-tertiary/10 text-tertiary flex items-center justify-center rounded-full font-black text-2xl shrink-0">٣</span>
+            <div class="order-3 w-full mt-4 md:order-2 md:w-auto md:flex-1 md:mt-0 space-y-1">
+              <h3 class="text-xl md:text-2xl font-black">أدوات القوة - Power Query & Pivot</h3>
+              <p class="text-sm md:text-base opacity-60">تنظيف البيانات وبناء نماذج البيانات (جلسة ٥-٦)</p>
+            </div>
+            <span
+              class="accordion-icon material-symbols-outlined text-on-surface/40 text-4xl shrink-0">expand_more</span>
+          </div>
+          <div class="accordion-content">
+            <ul class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <li class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-tertiary text-xl"
+                  style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                <span class="text-lg font-bold">مفهوم الـ ETL وسحب البيانات من مصادر مختلفة</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-tertiary text-xl"
+                  style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                <span class="text-lg font-bold">تنظيف وتحويل البيانات بـ Power Query</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-tertiary text-xl"
+                  style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                <span class="text-lg font-bold">مفهوم نماذج البيانات (Data Model) والعلاقات</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-tertiary text-xl"
+                  style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                <span class="text-lg font-bold">استخدام Power Pivot لإدارة البيانات</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div
+          class="curriculum-card bg-surface-container-lowest rounded-3xl p-6 border-r-8 border-primary-container shadow-lg cursor-pointer hover:translate-x-[-4px] transition-all">
+          <div class="flex flex-wrap items-center justify-between md:flex-nowrap md:gap-6">
+            <span
+              class="w-12 h-12 bg-primary-container/10 text-primary-container flex items-center justify-center rounded-full font-black text-2xl shrink-0">٤</span>
+            <div class="order-3 w-full mt-4 md:order-2 md:w-auto md:flex-1 md:mt-0 space-y-1">
+              <h3 class="text-xl md:text-2xl font-black">المشروع التطبيقي (Excel Dashboard)</h3>
+              <p class="text-sm md:text-base opacity-60">بناء لوحة بيانات مبيعات متكاملة (جلسة ٧-٨)</p>
+            </div>
+            <span
+              class="accordion-icon material-symbols-outlined text-on-surface/40 text-4xl shrink-0">expand_more</span>
+          </div>
+          <div class="accordion-content">
+            <ul class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <li class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-primary-container text-xl"
+                  style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                <span class="text-lg font-bold">تنظيف وهيكلة بيانات المبيعات الحقيقية</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-primary-container text-xl"
+                  style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                <span class="text-lg font-bold">حساب الـ KPIs ومؤشرات الأداء للأعمال</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-primary-container text-xl"
+                  style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                <span class="text-lg font-bold">بناء داشبورد تفاعلي بالكامل بالسلايسرز</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-primary-container text-xl"
+                  style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                <span class="text-lg font-bold">تحليل الأداء الإقليمي والمنتجات زمنياً</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div
+          class="curriculum-card bg-surface-container-lowest rounded-3xl p-6 border-r-8 border-secondary-container shadow-lg cursor-pointer hover:translate-x-[-4px] transition-all">
+          <div class="flex flex-wrap items-center justify-between md:flex-nowrap md:gap-6">
+            <span
+              class="w-12 h-12 bg-secondary-container/10 text-secondary-container flex items-center justify-center rounded-full font-black text-2xl shrink-0">٥</span>
+            <div class="order-3 w-full mt-4 md:order-2 md:w-auto md:flex-1 md:mt-0 space-y-1">
+              <h3 class="text-xl md:text-2xl font-black">أساسيات Power BI ونمذجة البيانات</h3>
+              <p class="text-sm md:text-base opacity-60">بناء تقارير متطورة في أهم أداة BI في العالم (جلسة ٩-١١)</p>
+            </div>
+            <span
+              class="accordion-icon material-symbols-outlined text-on-surface/40 text-4xl shrink-0">expand_more</span>
+          </div>
+          <div class="accordion-content">
+            <ul class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <li class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-secondary-container text-xl"
+                  style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                <span class="text-lg font-bold">واجهة Power BI واستيراد وتحويل البيانات</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-secondary-container text-xl"
+                  style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                <span class="text-lg font-bold">تحويل البيانات المتقدم بـ Power Query</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-secondary-container text-xl"
+                  style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                <span class="text-lg font-bold">تصميم Data Model (Star Schema)</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-secondary-container text-xl"
+                  style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                <span class="text-lg font-bold">بناء الرسوم البيانية التفاعلية الأساسية</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div
+          class="curriculum-card bg-surface-container-lowest rounded-3xl p-6 border-r-8 border-on-secondary-fixed-variant shadow-lg cursor-pointer hover:translate-x-[-4px] transition-all">
+          <div class="flex flex-wrap items-center justify-between md:flex-nowrap md:gap-6">
+            <span
+              class="w-12 h-12 bg-on-secondary-fixed-variant/10 text-on-secondary-fixed-variant flex items-center justify-center rounded-full font-black text-2xl shrink-0">٦</span>
+            <div class="order-3 w-full mt-4 md:order-2 md:w-auto md:flex-1 md:mt-0 space-y-1">
+              <h3 class="text-xl md:text-2xl font-black">التحليل المتقدم ونشر التقارير</h3>
+              <p class="text-sm md:text-base opacity-60">لغة DAX والحماية ونشر Dashboard (جلسة ١٢-١٣)</p>
+            </div>
+            <span
+              class="accordion-icon material-symbols-outlined text-on-surface/40 text-4xl shrink-0">expand_more</span>
+          </div>
+          <div class="accordion-content">
+            <ul class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <li class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-on-secondary-fixed-variant text-xl"
+                  style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                <span class="text-lg font-bold">أساسيات لغة DAX وكتابة الـ Measures ودوال الوقت</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-on-secondary-fixed-variant text-xl"
+                  style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                <span class="text-lg font-bold">تصميم داشبورد احترافي ومتقدم</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-on-secondary-fixed-variant text-xl"
+                  style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                <span class="text-lg font-bold">أمن البيانات (Row Level Security) والخصوصية</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-on-secondary-fixed-variant text-xl"
+                  style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                <span class="text-lg font-bold">النشر على Power BI Service والمشاركة مع الفريق</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Free gifts sections -->
+  <section class="py-20 px-8 max-w-7xl mx-auto" id="gifts">
+    <div class="text-center mb-16">
+      <div class="w-16 h-16 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto mb-6">
+        <span class="material-symbols-outlined text-4xl" style="font-variation-settings: 'FILL' 1;">redeem</span>
+      </div>
+      <h2 class="tajawal-black text-5xl mb-6">هدايا ومكافآت مجانية</h2>
+      <p class="text-xl opacity-60 max-w-2xl mx-auto">عشان نساعدك تنجح في المجال وتقتنص أهم الفرص، وفرنا لك مصادر حصرية
+        قيمتها أكتر من <span class="text-primary font-bold">٢٣٠٠ ج.م.</span> هتاخدها مجاناً مع المسار</p>
+    </div>
+  </section>
+
+  <section class="pb-20 space-y-10 md:space-y-20">
+    <!-- Gift Card 3: Projects -->
+    <div class="max-w-6xl mx-auto px-6">
+      <div
+        class="bg-surface-container-lowest rounded-[1.5rem] md:rounded-[2rem] p-6 md:p-10 border border-outline-variant/10 shadow-xl flex flex-col-reverse md:flex-row items-center gap-8 md:gap-10">
+        <div class="w-full md:w-2/3 space-y-4 md:space-y-6">
+          <h3 class="tajawal-black text-2xl md:text-4xl leading-tight text-center md:text-right">٣ مشاريع عملية حقيقية
+            لتقوية البورتفوليو</h3>
+          <p class="text-base md:text-lg opacity-70 leading-relaxed text-right md:text-right">هتنفذ ٣ مشاريع كاملة من
+            الصفر ببيانات حقيقية من شركات فعلية،
+            عشان تضمن إنك عندك معرض أعمال يخلي أي مدير توظيف يثق في مهاراتك.</p>
+          <div
+            class="bg-tertiary/5 border border-tertiary/10 p-3 md:p-4 rounded-xl flex flex-col md:flex-row items-center gap-3">
+            <span class="material-symbols-outlined text-tertiary text-2xl">redeem</span>
+            <p class="text-on-surface/80 font-medium text-sm md:text-base leading-loose">المشاريع دي قيمتها <span
+                class="text-tertiary font-black text-lg md:text-xl">٤٩٩ ج.م.</span>، بس أنت هتاخدها <span
+                class="bg-tertiary text-white px-2 py-0.5 rounded-lg text-[10px] md:text-xs mx-3 inline-block">مجاناً</span>
+            </p>
+          </div>
+        </div>
+        <div
+          class="w-full h-48 md:w-1/3 md:aspect-square bg-tertiary/5 rounded-2xl flex items-center justify-center border-4 border-tertiary/10 shadow-inner group overflow-hidden">
+          <span
+            class="material-symbols-outlined text-8xl md:text-[120px] text-tertiary group-hover:scale-110 transition-transform"
+            style="font-variation-settings: 'FILL' 1;">dataset</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gift Card 4: AI Session -->
+    <div class="max-w-6xl mx-auto px-6">
+      <div
+        class="bg-surface-container-lowest rounded-[1.5rem] md:rounded-[2rem] p-6 md:p-10 border border-outline-variant/10 shadow-xl flex flex-col-reverse md:flex-row-reverse items-center gap-8 md:gap-10">
+        <div class="w-full md:w-2/3 space-y-4 md:space-y-6">
+          <h3 class="tajawal-black text-2xl md:text-4xl leading-tight text-center md:text-right">جلسة خاصة عن الـ AI في
+            تحليل البيانات</h3>
+          <p class="text-base md:text-lg opacity-70 leading-relaxed text-right md:text-right">هتتعلم إزاي تستخدم أشهر
+            أدوات الذكاء الاصطناعي عشان تسرع شغلك
+            وتطلع تقارير أعمق بكتير من الطرق التقليدية، وتوفر ساعات من المجهود.</p>
+          <div
+            class="bg-primary/5 border border-primary/10 p-3 md:p-4 rounded-xl flex flex-col md:flex-row items-center gap-3">
+            <span class="material-symbols-outlined text-primary text-2xl">redeem</span>
+            <p class="text-on-surface/80 font-medium text-sm md:text-base leading-loose">الجلسة دي قيمتها <span
+                class="text-primary font-black text-lg md:text-xl">٣٥٠
+                ج.م.</span>، بس أنت هتاخدها <span
+                class="bg-primary text-white px-2 py-0.5 rounded-lg text-[10px] md:text-xs mx-3 inline-block">مجاناً</span>
+            </p>
+          </div>
+        </div>
+        <div
+          class="w-full h-48 md:w-1/3 md:aspect-square bg-primary/5 rounded-2xl flex items-center justify-center border-4 border-primary/10 shadow-inner group overflow-hidden">
+          <span
+            class="material-symbols-outlined text-8xl md:text-[120px] text-primary group-hover:scale-110 transition-transform"
+            style="font-variation-settings: 'FILL' 1;">psychology</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gift Card 5: Updates Meeting -->
+    <div class="max-w-6xl mx-auto px-6">
+      <div
+        class="bg-surface-container-lowest rounded-[1.5rem] md:rounded-[2rem] p-6 md:p-10 border border-outline-variant/10 shadow-xl flex flex-col-reverse md:flex-row items-center gap-8 md:gap-10">
+        <div class="w-full md:w-2/3 space-y-4 md:space-y-6">
+          <h3 class="tajawal-black text-2xl md:text-4xl leading-tight text-center md:text-right">لقاء دوري لمناقشة أحدث
+            التحديثات</h3>
+          <p class="text-base md:text-lg opacity-70 leading-relaxed text-right md:text-right">لقاء حصري كل شهرين بنناقش
+            فيه كل جديد بيحصل في عالم البيانات،
+            وبنجاوب على أسئلة الطلبة وبنقدم نصائح مهنية لتطوير كاريرك.</p>
+          <div
+            class="bg-secondary/5 border border-secondary/10 p-3 md:p-4 rounded-xl flex flex-col md:flex-row items-center gap-3">
+            <span class="material-symbols-outlined text-secondary text-2xl">redeem</span>
+            <p class="text-on-surface/80 font-medium text-sm md:text-base leading-loose">اللقاءات دي قيمتها <span
+                class="text-secondary font-black text-lg md:text-xl">٢٩٩ ج.م.</span>، بس أنت هتاخدها <span
+                class="bg-secondary text-white px-2 py-0.5 rounded-lg text-[10px] md:text-xs mx-3 inline-block">مجاناً</span>
+            </p>
+          </div>
+        </div>
+        <div
+          class="w-full h-48 md:w-1/3 md:aspect-square bg-secondary/5 rounded-2xl flex items-center justify-center border-4 border-secondary/10 shadow-inner group overflow-hidden">
+          <span
+            class="material-symbols-outlined text-8xl md:text-[120px] text-secondary group-hover:scale-110 transition-transform"
+            style="font-variation-settings: 'FILL' 1;">groups</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gift Card 6: Telegram Community -->
+    <div class="max-w-6xl mx-auto px-6">
+      <div
+        class="bg-surface-container-lowest rounded-[1.5rem] md:rounded-[2rem] p-6 md:p-10 border border-outline-variant/10 shadow-xl flex flex-col-reverse md:flex-row-reverse items-center gap-8 md:gap-10">
+        <div class="w-full md:w-2/3 space-y-4 md:space-y-6">
+          <h3 class="tajawal-black text-2xl md:text-4xl leading-tight text-center md:text-right">مجتمع "أكاديمية
+            البيانات" على التيليجرام</h3>
+          <p class="text-base md:text-lg opacity-70 leading-relaxed text-right md:text-right">دخول دائم لجروبنا الخاص
+            اللي بيجمع أهم المحللين، عشان تتبادل
+            الخبرات وتلاقي إجابات لأي مشكلة فنية تواجهك في شغلك العملي.</p>
+          <div
+            class="bg-tertiary/5 border border-tertiary/10 p-3 md:p-4 rounded-xl flex flex-col md:flex-row items-center gap-3">
+            <span class="material-symbols-outlined text-tertiary text-2xl">redeem</span>
+            <p class="text-on-surface/80 font-medium text-sm md:text-base leading-loose">الاشتراك ده قيمته <span
+                class="text-tertiary font-black text-lg md:text-xl">٢٥٠ ج.م.</span>، بس أنت هتاخده <span
+                class="bg-tertiary text-white px-2 py-0.5 rounded-lg text-[10px] md:text-xs mx-3 inline-block">مجاناً</span>
+            </p>
+          </div>
+        </div>
+        <div
+          class="w-full h-48 md:w-1/3 md:aspect-square bg-tertiary/5 rounded-2xl flex items-center justify-center border-4 border-tertiary/10 shadow-inner group overflow-hidden">
+          <span
+            class="material-symbols-outlined text-8xl md:text-[120px] text-tertiary group-hover:scale-110 transition-transform"
+            style="font-variation-settings: 'FILL' 1;">forum</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gift Card 7: Eraa Data Camp -->
+    <div class="max-w-6xl mx-auto px-6">
+      <div
+        class="bg-surface-container-lowest rounded-[1.5rem] md:rounded-[2rem] p-6 md:p-10 border border-outline-variant/10 shadow-xl flex flex-col-reverse md:flex-row items-center gap-8 md:gap-10">
+        <div class="w-full md:w-2/3 space-y-4 md:space-y-6">
+          <h3 class="tajawal-black text-2xl md:text-4xl leading-tight text-center md:text-right">أولوية الوصول لـ Eraa
+            Data Camp</h3>
+          <p class="text-base md:text-lg opacity-70 leading-relaxed text-right md:text-right">هتكون ليك الأولوية
+            والخصومات الحصرية في حجز مكانك في معسكراتنا
+            التدريبية المكثفة اللي بتتعمل على أرض الواقع لتقوية مهاراتك القصوى.</p>
+          <div
+            class="bg-primary/5 border border-primary/10 p-3 md:p-4 rounded-xl flex flex-col md:flex-row items-center gap-3">
+            <span class="material-symbols-outlined text-primary text-2xl">redeem</span>
+            <p class="text-on-surface/80 font-medium text-sm md:text-base leading-loose">الميزة دي قيمتها <span
+                class="text-primary font-black text-lg md:text-xl">٥٩٩
+                ج.م.</span>، بس أنت هتاخدها <span
+                class="bg-primary text-white px-2 py-0.5 rounded-lg text-[10px] md:text-xs mx-3 inline-block">مجاناً</span>
+            </p>
+          </div>
+        </div>
+        <div
+          class="w-full h-48 md:w-1/3 md:aspect-square bg-primary/5 rounded-2xl flex items-center justify-center border-4 border-primary/10 shadow-inner group overflow-hidden">
+          <span
+            class="material-symbols-outlined text-8xl md:text-[120px] text-primary group-hover:scale-110 transition-transform"
+            style="font-variation-settings: 'FILL' 1;">event_available</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gift Card 8: Workshop Every 2 Months -->
+    <div class="max-w-6xl mx-auto px-6">
+      <div
+        class="bg-surface-container-lowest rounded-[1.5rem] md:rounded-[2rem] p-6 md:p-10 border border-outline-variant/10 shadow-xl flex flex-col-reverse md:flex-row-reverse items-center gap-8 md:gap-10">
+        <div class="w-full md:w-2/3 space-y-4 md:space-y-6">
+          <h3 class="tajawal-black text-2xl md:text-4xl leading-tight text-center md:text-right">ورشة عمل احترافية كل
+            شهرين</h3>
+          <p class="text-base md:text-lg opacity-70 leading-relaxed text-right md:text-right">ورشة عمل مكثفة بنركز فيها
+            على مهارة معينة مطلوبة جداً، عشان نضمن
+            إن مستواك بيتطور باستمرار مش بس مجرد كورس وخلص.</p>
+          <div
+            class="bg-secondary/5 border border-secondary/10 p-3 md:p-4 rounded-xl flex flex-col md:flex-row items-center gap-3">
+            <span class="material-symbols-outlined text-secondary text-2xl">redeem</span>
+            <p class="text-on-surface/80 font-medium text-sm md:text-base leading-loose">الورشة دي قيمتها <span
+                class="text-secondary font-black text-lg md:text-xl">٣٩٩ ج.م.</span>، بس أنت هتاخدها <span
+                class="bg-secondary text-white px-2 py-0.5 rounded-lg text-[10px] md:text-xs mx-3 inline-block">مجاناً</span>
+            </p>
+          </div>
+        </div>
+        <div
+          class="w-full h-48 md:w-1/3 md:aspect-square bg-secondary/5 rounded-2xl flex items-center justify-center border-4 border-secondary/10 shadow-inner group overflow-hidden">
+          <span
+            class="material-symbols-outlined text-8xl md:text-[120px] text-secondary group-hover:scale-110 transition-transform"
+            style="font-variation-settings: 'FILL' 1;">school</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-12 md:py-20 px-6 md:px-8" id="pricing">
+    <div
+      class="container-custom mx-auto max-w-4xl bg-surface-container-lowest rounded-[1.5rem] md:rounded-[2.5rem] p-6 md:p-10 shadow-2xl border-2 md:border-4 border-primary/5">
+      <div class="text-center mb-10 md:mb-16">
+        <h2 class="tajawal-black text-3xl md:text-5xl mb-3 md:mb-4">استثمر في مستقبلك</h2>
+        <p class="text-lg md:text-2xl opacity-60">كل اللي هتاخده أول ما تشترك</p>
+      </div>
+      <ul class="space-y-4 mb-10 md:mb-16">
+        <li
+          class="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b border-outline-variant/10 pb-4 gap-1">
           <div class="flex items-center gap-3">
-            <span class="text-on-surface/30 line-through text-xl">١٢٠٠ ر.س</span>
-            <span class="text-primary font-black text-xl">مشمول</span>
+            <span class="material-symbols-outlined text-primary text-xl"
+              style="font-variation-settings: 'FILL' 1;">check_circle</span>
+            <span class="text-base md:text-lg font-bold">المسار الكامل (٨٠+ ساعة تدريب)</span>
+          </div>
+          <div class="flex items-center gap-2 pr-8 sm:pr-0">
+            <span class="text-on-surface/30 line-through text-sm md:text-base">١٢٠٠ ج.م.</span>
+            <span class="text-primary font-bold text-xs uppercase">معاك في الكورس</span>
           </div>
         </li>
-        <li class="flex items-center justify-between border-b border-outline-variant/10 pb-6">
-          <div class="flex items-center gap-6">
-            <span class="material-symbols-outlined text-primary text-3xl"
-              style="font-variation-settings: 'FILL' 1;">check_circle</span>
-            <span class="text-2xl font-bold">جميع الهدايا والمكافآت المذكورة</span>
-          </div>
+        <li
+          class="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b border-outline-variant/10 pb-4 gap-1">
           <div class="flex items-center gap-3">
-            <span class="text-on-surface/30 line-through text-xl">٦٤٩ ر.س</span>
-            <span class="text-secondary font-black text-xl">مجاناً</span>
+            <span class="material-symbols-outlined text-secondary text-xl"
+              style="font-variation-settings: 'FILL' 1;">add_circle</span>
+            <span class="text-base md:text-lg font-bold">٣ مشاريع عملية حقيقية</span>
+          </div>
+          <div class="flex items-center gap-2 pr-8 sm:pr-0">
+            <span class="text-on-surface/30 line-through text-sm md:text-base">٤٩٩ ج.م.</span>
+            <span class="text-secondary font-bold text-xs uppercase">مجاناً</span>
           </div>
         </li>
-        <li class="flex items-center justify-between border-b border-outline-variant/10 pb-6">
-          <div class="flex items-center gap-6">
-            <span class="material-symbols-outlined text-primary text-3xl"
-              style="font-variation-settings: 'FILL' 1;">check_circle</span>
-            <span class="text-2xl font-bold">جلسات التوجيه الأسبوعية المباشرة</span>
-          </div>
+        <li
+          class="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b border-outline-variant/10 pb-4 gap-1">
           <div class="flex items-center gap-3">
-            <span class="text-on-surface/30 line-through text-xl">٥٠٠ ر.س</span>
-            <span class="text-tertiary font-black text-xl">مجاناً</span>
+            <span class="material-symbols-outlined text-secondary text-xl"
+              style="font-variation-settings: 'FILL' 1;">add_circle</span>
+            <span class="text-base md:text-lg font-bold">جلسة الـ AI في تحليل البيانات</span>
+          </div>
+          <div class="flex items-center gap-2 pr-8 sm:pr-0">
+            <span class="text-on-surface/30 line-through text-sm md:text-base">٣٥٠ ج.م.</span>
+            <span class="text-secondary font-bold text-xs uppercase">مجاناً</span>
+          </div>
+        </li>
+        <li
+          class="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b border-outline-variant/10 pb-4 gap-1">
+          <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-secondary text-xl"
+              style="font-variation-settings: 'FILL' 1;">add_circle</span>
+            <span class="text-base md:text-lg font-bold">لقاء التحديثات وتطوير الكارير</span>
+          </div>
+          <div class="flex items-center gap-2 pr-8 sm:pr-0">
+            <span class="text-on-surface/30 line-through text-sm md:text-base">٢٩٩ ج.م.</span>
+            <span class="text-secondary font-bold text-xs uppercase">مجاناً</span>
+          </div>
+        </li>
+        <li
+          class="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b border-outline-variant/10 pb-4 gap-1">
+          <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-secondary text-xl"
+              style="font-variation-settings: 'FILL' 1;">add_circle</span>
+            <span class="text-base md:text-lg font-bold">مجتمع التيليجرام الحصري</span>
+          </div>
+          <div class="flex items-center gap-2 pr-8 sm:pr-0">
+            <span class="text-on-surface/30 line-through text-sm md:text-base">٢٥٠ ج.م.</span>
+            <span class="text-secondary font-bold text-xs uppercase">مجاناً</span>
+          </div>
+        </li>
+        <li
+          class="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b border-outline-variant/10 pb-4 gap-1">
+          <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-secondary text-xl"
+              style="font-variation-settings: 'FILL' 1;">add_circle</span>
+            <span class="text-base md:text-lg font-bold">معسكر البيانات (أولوية الوصول)</span>
+          </div>
+          <div class="flex items-center gap-2 pr-8 sm:pr-0">
+            <span class="text-on-surface/30 line-through text-sm md:text-base">٥٩٩ ج.م.</span>
+            <span class="text-secondary font-bold text-xs uppercase">مجاناً</span>
+          </div>
+        </li>
+        <li
+          class="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b border-outline-variant/10 pb-4 gap-1">
+          <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-secondary text-xl"
+              style="font-variation-settings: 'FILL' 1;">add_circle</span>
+            <span class="text-base md:text-lg font-bold">ورشة عمل احترافية دورية</span>
+          </div>
+          <div class="flex items-center gap-2 pr-8 sm:pr-0">
+            <span class="text-on-surface/30 line-through text-sm md:text-base">٣٩٩ ج.م.</span>
+            <span class="text-secondary font-bold text-xs uppercase">مجاناً</span>
+          </div>
+        </li>
+        <li
+          class="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b border-outline-variant/10 pb-4 gap-1">
+          <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-tertiary text-xl"
+              style="font-variation-settings: 'FILL' 1;">check_circle</span>
+            <span class="text-base md:text-lg font-bold">المتابعة الأسبوعية اللايف</span>
+          </div>
+          <div class="flex items-center gap-2 pr-8 sm:pr-0">
+            <span class="text-on-surface/30 line-through text-sm md:text-base">٥٠٠ ج.م.</span>
+            <span class="text-tertiary font-bold text-xs uppercase">مجاناً</span>
           </div>
         </li>
       </ul>
-      <div class="text-center bg-surface-container-high/30 p-12 rounded-[2rem]">
-        <div class="mb-10 relative inline-block">
-          <span class="text-on-surface/40 line-through text-3xl">١٨٤٩ ر.س</span>
-          <h3 class="tajawal-black text-6xl text-primary my-4">٤٩٩ ر.س</h3>
+      <div class="text-center bg-surface-container-high/30 p-4 md:p-12 rounded-[1.5rem] md:rounded-[2rem]">
+        <div class="mb-6 md:mb-10 relative inline-block">
+          <span class="text-on-surface/40 line-through text-2xl md:text-3xl">٤٠٩٦ ج.م.</span>
+          <h3 class="tajawal-black text-5xl md:text-7xl text-primary my-2 md:my-4">٤٩٩ ج.م.</h3>
           <div
-            class="absolute -top-6 -right-12 bg-primary text-white px-6 py-2 rounded-full rotate-12 shadow-lg font-black text-xl">
-            خصم ٧٠٪</div>
-          <p class="text-lg opacity-60">السعر شامل جميع التحديثات مدى الحياة</p>
+            class="absolute -top-10 left-1/2 -translate-x-1/2 sm:translate-x-0 sm:left-auto sm:-right-8 bg-primary text-white px-4 md:px-6 py-1 md:py-2 rounded-full rotate-0 sm:rotate-12 shadow-lg font-black text-sm md:text-xl whitespace-nowrap">
+            خصم ٨٨٪</div>
+          <p class="text-sm md:text-lg opacity-60 mt-6">السعر ده شامل كل التحديثات طول العمر</p>
         </div>
-        <button
-          class="w-full bg-primary-container text-on-primary-container py-6 rounded-3xl text-2xl font-black shadow-2xl hover:shadow-primary/30 transition-all scale-100 hover:scale-[1.02]">
-          سجل الآن واضمن مستقبلك
-        </button>
+        <a href="checkout.html"
+          class="w-full bg-primary-container text-on-primary-container py-5 md:py-6 rounded-2xl md:rounded-3xl text-xl md:text-2xl font-black shadow-2xl hover:shadow-primary/30 transition-all text-center inline-block">
+          سجل دلوقتي واضمن مستقبلك
+        </a>
       </div>
     </div>
   </section>
-  <!-- 12. Guarantee -->
+
   <section class="bg-on-surface py-24 px-8 text-center text-white">
     <div class="max-w-3xl mx-auto space-y-8">
       <div class="w-24 h-24 bg-tertiary-container mx-auto rounded-full flex items-center justify-center mb-8">
         <span class="material-symbols-outlined text-on-tertiary-container text-5xl"
           style="font-variation-settings: 'FILL' 1;">verified_user</span>
       </div>
-      <h2 class="tajawal-black text-4xl">ضمان استرداد الأموال بنسبة ١٠٠٪</h2>
+      <h2 class="tajawal-black text-4xl">ضمان استرجاع فلوسك بنسبة ١٠٠٪</h2>
       <p class="text-xl text-white/70 leading-relaxed">
-        نحن واثقون جداً في قيمة المحتوى. إذا لم تكن راضياً عن المسار لأي سبب خلال ٣٠ يوماً من اشتراكك، سنعيد لك كامل
-        المبلغ فوراً دون أي تعقيدات.
+        إحنا واثقين جداً في جودة المحتوى. لو محستش إنك استفدت لأي سبب خلال أول ٣٠ يوم، هنرجعلك فلوسك كاملة فوراً من غير
+        أي أسئلة.
       </p>
     </div>
   </section>
-  <!-- 13. FAQ -->
-  <section class="py-20 px-8 max-w-4xl mx-auto">
-    <h2 class="tajawal-black text-4xl text-center mb-16">الأسئلة الشائعة</h2>
+
+  <section class="py-20 px-8 max-w-4xl mx-auto" id="faq">
+    <h2 class="tajawal-black text-4xl text-center mb-16">الأسئلة المتكررة</h2>
     <div class="space-y-4">
-      <div class="p-6 bg-surface-container rounded-xl border border-outline-variant/15">
-        <h4 class="font-bold text-lg mb-2">هل أحتاج لخبرة سابقة في البرمجة؟</h4>
-        <p class="opacity-70">لا، المسار يبدأ معك من الصفر تماماً ويشرح لك أساسيات البرمجة بلغة بايثون من البداية.</p>
+      <div
+        class="faq-item group border border-outline-variant/15 rounded-2xl overflow-hidden bg-surface-container-low transition-all">
+        <button
+          class="faq-header w-full p-6 text-right flex justify-between items-center hover:bg-surface-container transition-colors focus:outline-none">
+          <span class="font-bold text-xl">هل أحتاج لخبرة سابقة في البرمجة؟</span>
+          <span class="material-symbols-outlined accordion-icon transition-transform duration-300">expand_more</span>
+        </button>
+        <div class="accordion-content">
+          <div class="p-6 pt-0 opacity-70 text-lg">
+            لا، المسار بيبدأ معاك من الصفر خالص وبيشرحلك أساسيات البرمجة بلغة بايثون من البداية.
+          </div>
+        </div>
       </div>
-      <div class="p-6 bg-surface-container rounded-xl border border-outline-variant/15">
-        <h4 class="font-bold text-lg mb-2">كيف يتم استلام الشهادة؟</h4>
-        <p class="opacity-70">بعد إتمام جميع وحدات المسار واجتياز المشروع النهائي، تصدر الشهادة إلكترونياً باسمك
-          باللغتين العربية والإنجليزية.</p>
+      <div
+        class="faq-item group border border-outline-variant/15 rounded-2xl overflow-hidden bg-surface-container-low transition-all">
+        <button
+          class="faq-header w-full p-6 text-right flex justify-between items-center hover:bg-surface-container transition-colors focus:outline-none">
+          <span class="font-bold text-xl">إزاي بستلم الشهادة؟</span>
+          <span class="material-symbols-outlined accordion-icon transition-transform duration-300">expand_more</span>
+        </button>
+        <div class="accordion-content">
+          <div class="p-6 pt-0 opacity-70 text-lg">
+            بعد ما تخلص كل وحدات المسار وتعدي المشروع النهائي، الشهادة بتطلعلك إلكترونياً باسمك بالعربي والإنجليزي.
+          </div>
+        </div>
       </div>
-      <div class="p-6 bg-surface-container rounded-xl border border-outline-variant/15">
-        <h4 class="font-bold text-lg mb-2">هل المحتوى محدث؟</h4>
-        <p class="opacity-70">نعم، نقوم بتحديث المسار دورياً لمواكبة أحدث الأدوات والتقنيات في مجال تحليل البيانات.</p>
+      <div
+        class="faq-item group border border-outline-variant/15 rounded-2xl overflow-hidden bg-surface-container-low transition-all">
+        <button
+          class="faq-header w-full p-6 text-right flex justify-between items-center hover:bg-surface-container transition-colors focus:outline-none">
+          <span class="font-bold text-xl">هل المحتوى بيتحدث؟</span>
+          <span class="material-symbols-outlined accordion-icon transition-transform duration-300">expand_more</span>
+        </button>
+        <div class="accordion-content">
+          <div class="p-6 pt-0 opacity-70 text-lg">
+            أكيد، إحنا بنحدث المسار أول بأول عشان يواكب أحدث الأدوات والتكنولوجيات في مجال تحليل البيانات.
+          </div>
+        </div>
+      </div>
+      <div
+        class="faq-item group border border-outline-variant/15 rounded-2xl overflow-hidden bg-surface-container-low transition-all">
+        <button
+          class="faq-header w-full p-6 text-right flex justify-between items-center hover:bg-surface-container transition-colors focus:outline-none">
+          <span class="font-bold text-xl">هل فيه متابعة بعد الكورس؟</span>
+          <span class="material-symbols-outlined accordion-icon transition-transform duration-300">expand_more</span>
+        </button>
+        <div class="accordion-content">
+          <div class="p-6 pt-0 opacity-70 text-lg">
+            أيوة، فيه جروب واتساب خاص للمشتركين بتقدر تسأل فيه في أي وقت والمدرب بيجاوب عليك، وكمان فيه لقاءات أسبوعية
+            لايف عشان نضمن إنك فاهم كل كبيرة وصغيرة.
+          </div>
+        </div>
+      </div>
+      <div
+        class="faq-item group border border-outline-variant/15 rounded-2xl overflow-hidden bg-surface-container-low transition-all">
+        <button
+          class="faq-header w-full p-6 text-right flex justify-between items-center hover:bg-surface-container transition-colors focus:outline-none">
+          <span class="font-bold text-xl">أنا مش خريج تجارة، هل الكورس مناسب ليا؟</span>
+          <span class="material-symbols-outlined accordion-icon transition-transform duration-300">expand_more</span>
+        </button>
+        <div class="accordion-content">
+          <div class="p-6 pt-0 opacity-70 text-lg">
+            طبعاً، تحليل البيانات مهارة مطلوبة في كل المجالات (طب، هندسة، تسويق، إدارة). بنعلمك الأساسيات اللي تخليك
+            تطبق اللي اتعلمته في مجالك الخاص أو تغير كاريرك بالكامل.
+          </div>
+        </div>
+      </div>
+      <div
+        class="faq-item group border border-outline-variant/15 rounded-2xl overflow-hidden bg-surface-container-low transition-all">
+        <button
+          class="faq-header w-full p-6 text-right flex justify-between items-center hover:bg-surface-container transition-colors focus:outline-none">
+          <span class="font-bold text-xl">إيه الأدوات اللي هنتعلمها بالظبط؟</span>
+          <span class="material-symbols-outlined accordion-icon transition-transform duration-300">expand_more</span>
+        </button>
+        <div class="accordion-content">
+          <div class="p-6 pt-0 opacity-70 text-lg">
+            هنتعلم Excel المتقدم، Power BI، SQL، وكمان أساسيات Python لتحليل البيانات، وده بيخليك شامل وملم بكل الأدوات
+            اللي السوق محتاجها.
+          </div>
+        </div>
+      </div>
+      <div
+        class="faq-item group border border-outline-variant/15 rounded-2xl overflow-hidden bg-surface-container-low transition-all">
+        <button
+          class="faq-header w-full p-6 text-right flex justify-between items-center hover:bg-surface-container transition-colors focus:outline-none">
+          <span class="font-bold text-xl">أقدر أبدأ أشتغل بعد الكورس؟</span>
+          <span class="material-symbols-outlined accordion-icon transition-transform duration-300">expand_more</span>
+        </button>
+        <div class="accordion-content">
+          <div class="p-6 pt-0 opacity-70 text-lg">
+            الهدف الأساسي من الكورس هو التوظيف. بنركز جداً على بناء بورتفوليو احترافي، وبنعلمك إزاي تجتاز المقابلات
+            الشخصية وتجهز السي في بتاعك عشان تقتنص أول فرصة شغل ليك.
+          </div>
+        </div>
       </div>
     </div>
   </section>
-  <!-- 14. Footer (Shared Component) -->
+
   <footer class="w-full pt-20 pb-12 bg-on-surface text-white">
-    <div class="container-custom px-8">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-16 mb-20">
-        <!-- Col 1: Brand -->
+    <div class="container-custom px-6 md:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-10 md:gap-16 mb-20">
         <div class="md:col-span-2 space-y-6">
           <div class="text-3xl font-black text-primary-fixed-dim tracking-tighter">
             أكاديمية البيانات
           </div>
           <p class="text-white/60 text-lg leading-relaxed max-w-sm">
-            نحن نؤمن بأن المستقبل للبيانات. مهمتنا هي تمكين الكفاءات العربية بالمهارات اللازمة لقيادة التحول الرقمي
-            العالمي.
+            إحنا مؤمنين إن المستقبل كله للبيانات. هدفنا هو تمكين الشباب العربي بالمهارات اللي محتاجينها عشان يقودوا
+            التحول الرقمي في العالم.
           </p>
         </div>
-        <!-- Col 2: Navigation -->
         <div class="space-y-6">
           <h4 class="text-xl font-black border-b border-white/10 pb-4">تصفح المسار</h4>
           <ul class="space-y-4 text-white/70">
             <li><a class="hover:text-primary-fixed transition-colors" href="#">عن المسار</a></li>
-            <li><a class="hover:text-primary-fixed transition-colors" href="#">المنهج الدراسي</a></li>
-            <li><a class="hover:text-primary-fixed transition-colors" href="#">الهدايا والمكافآت</a></li>
-            <li><a class="hover:text-primary-fixed transition-colors" href="#">الأسعار</a></li>
-            <li><a class="hover:text-primary-fixed transition-colors" href="#faq">الأسئلة الشائعة</a></li>
+            <li><a class="hover:text-primary-fixed transition-colors" href="#curriculum">المنهج الدراسي</a></li>
+            <li><a class="hover:text-primary-fixed transition-colors" href="#gifts">الهدايا والمكافآت</a></li>
+            <li><a class="hover:text-primary-fixed transition-colors" href="#pricing">الأسعار</a></li>
+            <li><a class="hover:text-primary-fixed transition-colors" href="#faq">الأسئلة المتكررة</a></li>
           </ul>
         </div>
-        <!-- Col 3: Social & Support -->
         <div class="space-y-6">
-          <h4 class="text-xl font-black border-b border-white/10 pb-4">تواصل معنا</h4>
+          <h4 class="text-xl font-black border-b border-white/10 pb-4">كلمنا</h4>
           <div class="flex gap-4">
-            <a class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center hover:bg-primary transition-colors"
-              href="#">
-              <span class="material-symbols-outlined">alternate_email</span>
+            <a class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center hover:bg-[#1877f2] transition-colors"
+              href="https://www.facebook.com/eraapro" target="_blank">
+              <i class="fa-brands fa-facebook-f text-xl"></i>
             </a>
-            <a class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center hover:bg-primary transition-colors"
-              href="#">
-              <span class="material-symbols-outlined">share</span>
+            <a class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center hover:bg-[#0077b5] transition-colors"
+              href="https://www.linkedin.com/company/eraapro/" target="_blank">
+              <i class="fa-brands fa-linkedin-in text-xl"></i>
             </a>
-            <a class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center hover:bg-primary transition-colors"
-              href="#">
-              <span class="material-symbols-outlined">forum</span>
+            <a class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center hover:bg-[#25d366] transition-colors"
+              href="https://wa.me/201000143085" target="_blank">
+              <i class="fa-brands fa-whatsapp text-xl"></i>
             </a>
           </div>
           <ul class="space-y-4 text-white/70 pt-4">
-            <li><a class="hover:text-primary-fixed transition-colors text-sm" href="#">سياسة الخصوصية</a></li>
-            <li><a class="hover:text-primary-fixed transition-colors text-sm" href="#">الشروط والأحكام</a></li>
+            <li><a class="hover:text-primary-fixed transition-colors text-sm" href="privacy.html">سياسة الخصوصية</a>
+            </li>
+            <li><a class="hover:text-primary-fixed transition-colors text-sm" href="terms.html">الشروط
+                والأحكام</a></li>
+            <li><a class="hover:text-primary-fixed transition-colors text-sm" href="refund.html">سياسة
+                الاسترجاع</a></li>
           </ul>
         </div>
       </div>
       <div class="border-t border-white/10 pt-10 text-center text-white/40 text-sm">
-        © ٢٠٢٤ أكاديمية البيانات. جميع الحقوق محفوظة. صُنع بشغف لتمكين المحللين العرب.
+        © ٢٠٢٤ أكاديمية البيانات. كل الحقوق محفوظة. اتعمل بكل حب عشان نساعد المحللين العرب.
       </div>
     </div>
   </footer>
-  <script>
-    document.querySelectorAll('.curriculum-card').forEach(card => {
-      card.addEventListener('click', () => {
-        const content = card.querySelector('.accordion-content');
-        const icon = card.querySelector('.accordion-icon');
-        const isHidden = content.classList.contains('hidden');
+  <!-- Floating WhatsApp Button -->
+  <a href="https://wa.me/201000143085" target="_blank"
+    class="fixed bottom-4 left-4 md:bottom-10 md:left-10 z-[100] w-16 h-16 bg-[#25d366] text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform pulse-animation">
+    <i class="fa-brands fa-whatsapp text-4xl"></i>
+  </a>
 
-        if (isHidden) {
-          content.classList.remove('hidden');
-          icon.textContent = 'expand_less';
-          icon.classList.add('text-primary');
-        } else {
-          content.classList.add('hidden');
-          icon.textContent = 'expand_more';
-          icon.classList.remove('text-primary');
-        }
+  <script>
+
+
+    function initAccordions() {
+      document.querySelectorAll('.curriculum-card').forEach(card => {
+        card.addEventListener('click', () => {
+          const isActive = card.classList.contains('accordion-item-active');
+          const icon = card.querySelector('.accordion-icon');
+
+          if (isActive) {
+            card.classList.remove('accordion-item-active');
+            icon.textContent = 'expand_more';
+          } else {
+            document.querySelectorAll('.curriculum-card').forEach(c => {
+              c.classList.remove('accordion-item-active');
+              c.querySelector('.accordion-icon').textContent = 'expand_more';
+            });
+            card.classList.add('accordion-item-active');
+            icon.textContent = 'expand_less';
+          }
+        });
       });
-    });
+
+      document.querySelectorAll('.faq-header').forEach(header => {
+        header.addEventListener('click', () => {
+          const item = header.parentElement;
+          const isActive = item.classList.contains('accordion-item-active');
+
+          if (isActive) {
+            item.classList.remove('accordion-item-active');
+          } else {
+            document.querySelectorAll('.faq-item').forEach(i => {
+              i.classList.remove('accordion-item-active');
+            });
+            item.classList.add('accordion-item-active');
+          }
+        });
+      });
+    }
+
+    initAccordions();
+
+    // Reviews Carousel Logic
+    const reviewsContainer = document.getElementById('reviews-container');
+    const nextBtn = document.getElementById('next-review');
+    const prevBtn = document.getElementById('prev-review');
+
+    if (reviewsContainer && nextBtn && prevBtn) {
+      nextBtn.addEventListener('click', () => {
+        const cardWidth = reviewsContainer.querySelector('.review-card').offsetWidth;
+        const gap = 32; // 8 * 4 (gap-8)
+        reviewsContainer.scrollLeft -= (cardWidth + gap);
+      });
+
+      prevBtn.addEventListener('click', () => {
+        const cardWidth = reviewsContainer.querySelector('.review-card').offsetWidth;
+        const gap = 32;
+        reviewsContainer.scrollLeft += (cardWidth + gap);
+      });
+    }
+
+    // Countdown Logic
+    const countdownEl = document.getElementById('countdown-timer');
+    const arabicDigits = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+
+    function toArabic(num) {
+      return num.toString().split('').map(d => arabicDigits[d] || d).join('');
+    }
+
+    function initCountdown() {
+      let deadline = localStorage.getItem('diploma_deadline');
+
+      if (!deadline) {
+        // Random between 8 and 13 hours
+        const randomHours = Math.floor(Math.random() * (13 - 8 + 1)) + 8;
+        const randomMinutes = Math.floor(Math.random() * 60);
+        const randomSeconds = Math.floor(Math.random() * 60);
+        deadline = new Date().getTime() + (randomHours * 3600000) + (randomMinutes * 60000) + (randomSeconds * 1000);
+        localStorage.setItem('diploma_deadline', deadline);
+      } else {
+        deadline = parseInt(deadline);
+      }
+
+      function update() {
+        const now = new Date().getTime();
+        const diff = deadline - now;
+
+        if (diff <= 0) {
+          countdownEl.textContent = '٠٠ : ٠٠ : ٠٠';
+          return;
+        }
+
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        const h = toArabic(hours.toString().padStart(2, '0'));
+        const m = toArabic(minutes.toString().padStart(2, '0'));
+        const s = toArabic(seconds.toString().padStart(2, '0'));
+
+        countdownEl.textContent = `${s} : ${m} : ${h}`;
+      }
+
+      update();
+      setInterval(update, 1000);
+    }
+
+    initCountdown();
   </script>
 </body>
 
