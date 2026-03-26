@@ -179,6 +179,62 @@
       margin-left: auto;
       margin-right: auto;
     }
+
+    /* Notification Card Styles */
+    .notif-card {
+      position: fixed;
+      bottom: 2rem;
+      right: -450px;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      border-radius: 1.25rem;
+      padding: 1rem 1.25rem;
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.15);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+      max-width: 300px;
+      direction: rtl;
+    }
+
+    .notif-card.active {
+      right: 1rem;
+    }
+
+    .notif-avatar {
+      width: 45px;
+      height: 45px;
+      background: linear-gradient(135deg, #ff6b35, #ab3500);
+      border-radius: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(171, 53, 0, 0.3);
+    }
+
+    .notif-content {
+      flex: 1;
+    }
+
+    .notif-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: #1a1c1b;
+      margin-bottom: 2px;
+    }
+
+    .notif-subtitle {
+      font-size: 0.8rem;
+      color: #594139;
+      opacity: 0.8;
+    }
   </style>
 </head>
 
@@ -370,6 +426,16 @@
         <div class="space-y-4">
           <h3 class="text-secondary font-bold text-xl uppercase tracking-widest">اتعرف على مدربك</h3>
           <h2 class="tajawal-black text-5xl leading-tight">سيد عبد المنعم </h2>
+          <div class="flex justify-center gap-4 pt-2">
+            <a href="https://github.com/Sayed-abdul-monem" target="_blank"
+              class="w-12 h-12 bg-surface-container-lowest rounded-full flex items-center justify-center text-on-surface/60 hover:text-primary hover:shadow-lg transition-all border border-outline-variant/10">
+              <i class="fa-brands fa-github text-2xl"></i>
+            </a>
+            <a href="https://linkedin.com/in/sayedabdulmonem/" target="_blank"
+              class="w-12 h-12 bg-surface-container-lowest rounded-full flex items-center justify-center text-on-surface/60 hover:text-[#0077b5] hover:shadow-lg transition-all border border-outline-variant/10">
+              <i class="fa-brands fa-linkedin-in text-2xl"></i>
+            </a>
+          </div>
         </div>
         <p class="text-xl text-on-surface/80 leading-relaxed font-medium">
           مهندس حلول ذكاء الأعمال (BI Solution Engineer) في شركة Incorta ومحاضر تحليل بيانات في EraaSoft. خبير في بناء
@@ -506,7 +572,8 @@
               <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
               <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
             </div>
-            <p class="text-xl leading-relaxed italic opacity-80 font-medium">"كل الشكر والتقدير لمستر محمد على شرحه الاحترافي للكورس وأسلوبه المنظم والواضح اللي فرق معانا جداً في الفهم والتطبيق 🙏 👌"</p>
+            <p class="text-xl leading-relaxed italic opacity-80 font-medium">"كل الشكر والتقدير لمستر محمد على شرحه
+              الاحترافي للكورس وأسلوبه المنظم والواضح اللي فرق معانا جداً في الفهم والتطبيق 🙏 👌"</p>
           </div>
           <div class="flex items-center gap-4 mt-8 pt-8 border-t border-outline-variant/10">
             <div class="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center text-primary">
@@ -530,7 +597,8 @@
               <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
               <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
             </div>
-            <p class="text-xl leading-relaxed italic opacity-80 font-medium">"شكرا يا دكتور علي الشرح بتشرح بضمير وفهمت منك طريقتك حلوه جدا في الشرح 🙏 ❤️"</p>
+            <p class="text-xl leading-relaxed italic opacity-80 font-medium">"شكرا يا دكتور علي الشرح بتشرح بضمير وفهمت
+              منك طريقتك حلوه جدا في الشرح 🙏 ❤️"</p>
           </div>
           <div class="flex items-center gap-4 mt-8 pt-8 border-t border-outline-variant/10">
             <div class="w-14 h-14 bg-secondary/10 rounded-2xl flex items-center justify-center text-secondary">
@@ -555,7 +623,8 @@
               <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
               <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
             </div>
-            <p class="text-xl leading-relaxed italic opacity-80 font-medium">"ما شاء الله ربنا يبارك فيك ويزيدك علم إتقان واحتراف ف الشرح ❤️ 👍 👌"</p>
+            <p class="text-xl leading-relaxed italic opacity-80 font-medium">"ما شاء الله ربنا يبارك فيك ويزيدك علم
+              إتقان واحتراف ف الشرح ❤️ 👍 👌"</p>
           </div>
           <div class="flex items-center gap-4 mt-8 pt-8 border-t border-outline-variant/10">
             <div class="w-14 h-14 bg-tertiary/10 rounded-2xl flex items-center justify-center text-tertiary">
@@ -1404,6 +1473,62 @@
     }
 
     initCountdown();
+
+    // Social Proof Notification System
+    const notifNamesMale = ["أحمد", "محمد", "زياد", "خالد", "عمر", "يوسف", "محمود", "علي"];
+    const notifNamesFemale = ["سارة", "فاطمة", "مريم", "نورا", "ليلى", "ملك", "مها", "ريم"];
+    const notifCities = ["القاهرة", "الإسكندرية", "الجيزة", "المنصورة", "طنطا", "أسيوط", "السويس", "بورسعيد", "الإسماعيلية", "الأقصر", "أسوان", "الزقازيق", "دمياط", "المنيا", "بني سويف"];
+    const notifEmojis = ["🚀", "⚡", "❤️", "🔥", "✨"];
+
+    // Create notification element
+    const notifElement = document.createElement('div');
+    notifElement.className = 'notif-card';
+    notifElement.innerHTML = `
+      <div class="notif-avatar" id="notif-emoji">🚀</div>
+      <div class="notif-content">
+        <div class="notif-title" id="notif-msg"></div>
+        <div class="notif-subtitle" id="notif-time"></div>
+      </div>
+    `;
+    document.body.appendChild(notifElement);
+
+    function triggerNotification() {
+
+      const isMale = Math.random() < 0.5;
+      const name = isMale ? notifNamesMale[Math.floor(Math.random() * notifNamesMale.length)] : notifNamesFemale[Math.floor(Math.random() * notifNamesFemale.length)];
+      const city = notifCities[Math.floor(Math.random() * notifCities.length)];
+      const emoji = notifEmojis[Math.floor(Math.random() * notifEmojis.length)];
+
+      const SEVEN_MINIUTES = 7 * 60;
+      // Random time between 5 seconds and 7 minutes
+      const totalSeconds = Math.floor(Math.random() * SEVEN_MINIUTES) + 5;
+      let timeText = "";
+      if (totalSeconds < 60) {
+        timeText = `منذ ${toArabic(totalSeconds)} ثواني`;
+      } else {
+        const mins = Math.floor(totalSeconds / 60);
+        timeText = `منذ ${toArabic(mins)} دقائق`;
+      }
+
+      document.getElementById('notif-emoji').textContent = emoji;
+      document.getElementById('notif-msg').textContent = `${name} من ${city} ${isMale ? 'اشترك' : 'اشتركت'} في كورس تحليل البيانات`;
+      document.getElementById('notif-time').textContent = timeText;
+
+      // Show
+      notifElement.classList.add('active');
+
+      // Hide after 5 seconds
+      setTimeout(() => {
+        notifElement.classList.remove('active');
+      }, 5000);
+
+      // Schedule next one (15-30 seconds)
+      const nextDelay = Math.floor(Math.random() * (30000 - 15000 + 1)) + 15000;
+      setTimeout(triggerNotification, nextDelay);
+    }
+
+    // Start the first one after a short delay (e.g., 5 seconds)
+    setTimeout(triggerNotification, 5000);
   </script>
 </body>
 

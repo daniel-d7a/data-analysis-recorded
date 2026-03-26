@@ -671,6 +671,7 @@
 
       function initCountdown() {
         let deadline = localStorage.getItem('diploma_deadline');
+        const now = new Date().getTime();
 
         function setRandomDeadline() {
           const randomHours = Math.floor(Math.random() * (13 - 8 + 1)) + 8;
