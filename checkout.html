@@ -327,7 +327,8 @@
           </div>
         </div>
 
-        <div class="bg-secondary/5 border border-secondary/10 rounded-3xl p-6 md:p-8 text-on-surface shadow-md">
+        <div id="payment-instructions"
+          class="hidden bg-secondary/5 border border-secondary/10 rounded-3xl p-6 md:p-8 text-on-surface shadow-md">
           <div class="flex items-center justify-between mb-6 text-secondary">
             <div class="flex items-center gap-2">
               <span class="material-symbols-outlined text-2xl">help</span>
@@ -371,11 +372,11 @@
           <div
             class="flex items-center justify-between bg-surface-container-low p-4 rounded-2xl mb-8 border border-outline-variant/10">
             <div>
-              <h3 class="font-black text-2xl mb-1">InstaPay</h3>
-              <p class="text-sm opacity-60 font-bold">تحويل بنكي فوري</p>
+              <h3 id="payment-banner-title" class="font-black text-2xl mb-1">فيزا</h3>
+              <p id="payment-banner-subtitle" class="text-sm opacity-60 font-bold">الدفع عبر بطاقة الائتمان</p>
             </div>
             <div class="w-14 h-14 bg-secondary text-white rounded-2xl flex items-center justify-center shadow-lg">
-              <span class="material-symbols-outlined text-3xl">account_balance_wallet</span>
+              <span id="payment-banner-icon" class="material-symbols-outlined text-3xl">credit_card</span>
             </div>
           </div>
 
@@ -384,21 +385,54 @@
             <button id="tab-link-btn"
               class="flex-1 py-3 text-center rounded-lg bg-primary text-white font-bold transition-all duration-300 flex justify-center items-center gap-2 shadow-sm"
               role="tab">
-              <span class="material-symbols-outlined text-xl">link</span>
-              رابط الدفع
+              <span class="material-symbols-outlined text-xl">credit_card</span>
+              فيزا
             </button>
             <button id="tab-qr-btn"
               class="flex-1 py-3 text-center rounded-lg text-on-surface/60 font-bold hover:text-on-surface hover:bg-surface-container-low transition-all duration-300 flex justify-center items-center gap-2"
               role="tab">
-              <span class="material-symbols-outlined text-xl">qr_code_2</span>
-              رمز QR
+              <span class="material-symbols-outlined text-xl">account_balance_wallet</span>
+              إنستاباي
             </button>
           </div>
 
           <!-- Tab Content: Link -->
           <div id="tab-link-content" class="animate-fade-in block">
             <div class="bg-primary/5 border border-primary/20 rounded-2xl p-6 text-center shadow-inner">
-              <h4 class="tajawal-black text-2xl mb-2 text-primary">ادفع باستخدام هذا الرابط</h4>
+              <h4 class="tajawal-black text-2xl mb-2 text-primary">الدفع عبر البطاقة الائتمانية</h4>
+              <p class="text-sm font-medium opacity-70 mb-8">سيتم تحويلك إلى صفحة الدفع الآمنة لإتمام العملية</p>
+
+              <a target="_blank"
+                href="https://accept.paymobsolutions.com/standalone?ref=p_LRR2L2piVG1OdG1qVjFYODYxSlorQ3N5QT09X2hqUjB1V3l1TlptdEdVVWpGRUZUL2c9PQ"
+                class="w-full bg-primary text-white py-4 md:py-5 rounded-xl font-bold flex justify-center items-center gap-2 hover:bg-on-primary-fixed-variant transition-colors shadow-lg shadow-primary/30 text-lg">
+                <span class="material-symbols-outlined text-xl">credit_card</span>
+                ادفع الآن
+              </a>
+            </div>
+          </div>
+
+          <!-- Tab Content: QR -->
+          <div id="tab-qr-content" class="animate-fade-in hidden">
+            <div
+              class="bg-primary/5 border border-primary/20 rounded-2xl p-6 text-center flex flex-col items-center shadow-inner">
+              <h4 class="tajawal-black text-2xl mb-2 text-primary">تأكيد الدفع عبر رمز QR</h4>
+              <p class="text-sm font-medium opacity-70 mb-8">استخدم خيار مسح الرمز من خلال تطبيق InstaPay لإكمال الدفع
+              </p>
+
+              <!-- PLACE FOR INSTAPAY QR CODE -->
+              <div id="instapay-qr-code"
+                class="w-56 h-56 bg-surface-container-lowest border-2 border-outline-variant/30 rounded-3xl p-4 flex items-center justify-center shadow-md relative overflow-hidden group">
+                <!-- [INSTAPAY QR IMAGE GOES HERE] -->
+                <!-- Example Placeholder Image / Content -->
+                <img src="assets/instapay.jpeg" alt="Instapay QR Code" class="w-full h-full object-contain" />
+                <!-- We place the interactive dashed border just for styling -->
+                <div
+                  class="absolute inset-0 border-2 border-primary border-dashed rounded-3xl scale-[1.05] opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-300 pointer-events-none">
+                </div>
+              </div>
+            </div>
+            <div class="mt-6 bg-primary/5 border border-primary/20 rounded-2xl p-6 text-center shadow-inner">
+              <h4 class="tajawal-black text-2xl mb-2 text-primary">او ادفع باستخدام هذا الرابط</h4>
               <p class="text-sm font-medium opacity-70 mb-8">استخدم هذا الخيار إذا كان تطبيق InstaPay مثبتًا على هذا
                 الجهاز</p>
 
@@ -430,54 +464,31 @@
                 افتح رابط الدفع
               </button>
             </div>
-          </div>
-
-          <!-- Tab Content: QR -->
-          <div id="tab-qr-content" class="animate-fade-in hidden">
-            <div
-              class="bg-primary/5 border border-primary/20 rounded-2xl p-6 text-center flex flex-col items-center shadow-inner">
-              <h4 class="tajawal-black text-2xl mb-2 text-primary">تأكيد الدفع عبر رمز QR</h4>
-              <p class="text-sm font-medium opacity-70 mb-8">استخدم خيار مسح الرمز من خلال تطبيق InstaPay لإكمال الدفع
-              </p>
-
-              <!-- PLACE FOR INSTAPAY QR CODE -->
-              <div id="instapay-qr-code"
-                class="w-56 h-56 bg-surface-container-lowest border-2 border-outline-variant/30 rounded-3xl p-4 flex items-center justify-center shadow-md relative overflow-hidden group">
-                <!-- [INSTAPAY QR IMAGE GOES HERE] -->
-                <!-- Example Placeholder Image / Content -->
-                <img src="assets/instapay.jpeg" alt="Instapay QR Code" class="w-full h-full object-contain" />
-                <!-- We place the interactive dashed border just for styling -->
+            <!-- Common Section below tabs: Upload & Verify -->
+            <div class="mt-4 border-t border-outline-variant/10 pt-8">
+              <h4 class="text-sm font-bold opacity-60 mb-3 ml-2 flex items-center gap-2">
+                <span class="material-symbols-outlined text-lg">cloud_upload</span>
+                رفع تأكيد الدفع
+              </h4>
+              <label
+                class="block w-full border-2 border-dashed border-outline-variant/40 hover:border-primary/60 bg-surface-container-low/50 hover:bg-primary/5 rounded-2xl p-8 md:p-10 text-center cursor-pointer transition-all duration-300 group shadow-sm mb-6">
                 <div
-                  class="absolute inset-0 border-2 border-primary border-dashed rounded-3xl scale-[1.05] opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-300 pointer-events-none">
+                  class="w-20 h-20 bg-surface-container-lowest rounded-full mx-auto flex items-center justify-center mb-5 group-hover:bg-primary/10 group-hover:text-primary transition-colors shadow-sm">
+                  <span
+                    class="material-symbols-outlined text-4xl opacity-50 group-hover:opacity-100 transition-opacity">cloud_upload</span>
                 </div>
-              </div>
+                <h5 class="tajawal-black text-xl mb-2 group-hover:text-primary transition-colors">اضغط لرفع لقطة الشاشة
+                </h5>
+                <p class="text-sm font-medium opacity-50">PNG, JPG حتى 5 ميجابايت (صورة إيصال التحويل الناجح)</p>
+                <input type="file" class="hidden" accept="image/png, image/jpeg" />
+              </label>
+
+              <button
+                class="w-full bg-secondary text-white py-4 md:py-5 rounded-xl font-bold flex justify-center items-center gap-2 hover:bg-secondary/90 transition-colors shadow-lg shadow-secondary/30 text-lg">
+                <span class="material-symbols-outlined text-2xl">search</span>
+                تحقق من الدفع
+              </button>
             </div>
-          </div>
-
-          <!-- Common Section below tabs: Upload & Verify -->
-          <div class="mt-10 border-t border-outline-variant/10 pt-8">
-            <h4 class="text-sm font-bold opacity-60 mb-3 ml-2 flex items-center gap-2">
-              <span class="material-symbols-outlined text-lg">cloud_upload</span>
-              رفع تأكيد الدفع
-            </h4>
-            <label
-              class="block w-full border-2 border-dashed border-outline-variant/40 hover:border-primary/60 bg-surface-container-low/50 hover:bg-primary/5 rounded-2xl p-8 md:p-10 text-center cursor-pointer transition-all duration-300 group shadow-sm mb-6">
-              <div
-                class="w-20 h-20 bg-surface-container-lowest rounded-full mx-auto flex items-center justify-center mb-5 group-hover:bg-primary/10 group-hover:text-primary transition-colors shadow-sm">
-                <span
-                  class="material-symbols-outlined text-4xl opacity-50 group-hover:opacity-100 transition-opacity">cloud_upload</span>
-              </div>
-              <h5 class="tajawal-black text-xl mb-2 group-hover:text-primary transition-colors">اضغط لرفع لقطة الشاشة
-              </h5>
-              <p class="text-sm font-medium opacity-50">PNG, JPG حتى 5 ميجابايت (صورة إيصال التحويل الناجح)</p>
-              <input type="file" class="hidden" accept="image/png, image/jpeg" />
-            </label>
-
-            <button
-              class="w-full bg-secondary text-white py-4 md:py-5 rounded-xl font-bold flex justify-center items-center gap-2 hover:bg-secondary/90 transition-colors shadow-lg shadow-secondary/30 text-lg">
-              <span class="material-symbols-outlined text-2xl">search</span>
-              تحقق من الدفع
-            </button>
           </div>
 
         </div>
@@ -646,6 +657,11 @@
 
           tabLinkContent.classList.remove('hidden');
           tabQrContent.classList.add('hidden');
+
+          document.getElementById('payment-instructions').classList.add('hidden');
+          document.getElementById('payment-banner-title').innerText = 'فيزا';
+          document.getElementById('payment-banner-subtitle').innerText = 'الدفع عبر بطاقة الائتمان';
+          document.getElementById('payment-banner-icon').innerText = 'credit_card';
         } else {
           tabQrBtn.classList.replace('text-on-surface/60', 'text-white');
           tabQrBtn.classList.replace('hover:text-on-surface', 'bg-primary');
@@ -659,6 +675,11 @@
 
           tabQrContent.classList.remove('hidden');
           tabLinkContent.classList.add('hidden');
+
+          document.getElementById('payment-instructions').classList.remove('hidden');
+          document.getElementById('payment-banner-title').innerText = 'InstaPay';
+          document.getElementById('payment-banner-subtitle').innerText = 'تحويل بنكي فوري';
+          document.getElementById('payment-banner-icon').innerText = 'account_balance_wallet';
         }
       }
 
